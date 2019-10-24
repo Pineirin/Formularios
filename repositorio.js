@@ -18,19 +18,19 @@ module.exports = {
         });
         return promise;
     },
-    getPublicForms: async (db, criterio) => {
+    obtenerFormulariosPublicos: async (db, criterio) => {
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('formularios');
-            collection.find(criterio).toArray((err, result) => {
+            collection.find(criterio).toArray( (err, result) => {
                 if (err) {
                     resolve(null);
                 } else {
-                    // Lista de formularios
                     resolve(result);
                 }
                 db.close();
             });
         });
+
         return promise;
     },
     obtenerUsuarios: async (db, criterio) => {
