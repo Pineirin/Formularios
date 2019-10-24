@@ -59,7 +59,7 @@ const iniciarServer = async () => {
         var handlebars = require('handlebars');
         handlebars.registerHelper("sumar", (a, b) => {
             return a + b;
-        })
+        });
 
         await server.register(routes);
         await server.views({
