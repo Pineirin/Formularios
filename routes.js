@@ -156,7 +156,7 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/forms/public',
+                path: '/formularios_publicos',
                 handler: async (req, res) => {
                     let public_forms;
                     await repositorio.conexion()
@@ -168,8 +168,8 @@ module.exports = {
                                 public_forms = [];
                             }
                         });
-                    return res.view('forms',
-                        {forms: public_forms},
+                    return res.view('formularios_publicos',
+                        {forms: 'formularios'},
                         {layout: 'base'});
                 }
             },
