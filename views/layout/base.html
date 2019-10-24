@@ -45,34 +45,33 @@
     <div class="uk-container uk-container-expand">
         <nav class="uk-navbar" data-uk-navbar>
             <div class="uk-navbar-left">
-                <img width=30" height="30" src="images/uikit.svg" alt="">
-                <a class="uk-navbar-item uk-logo" href="/">Wallapap</a>
+                <a class="uk-navbar-item uk-logo" href="/">Forms</a>
             </div>
 
             <div class="uk-navbar-right">
                 <!-- uk-visible@m Lo visualiza en pantallas más pequeñas de m-->
                 <ul class="uk-navbar-nav uk-visible@m">
                     <li>
-                        <a href="/seguidos">
+                        <a href="/public_forms">
                             <span data-uk-icon="heart"
                                   class="uk-margin-small-right">
-                            </span> Seguidos
+                            </span>Public Forms
                         </a>
                     </li>
                     <li>
-                        <a href="/misanuncios">
+                        <a href="/own_forms">
                             <span data-uk-icon="list"
                                   class="uk-margin-small-right">
-                            </span> Mis anuncios
+                            </span>Own Forms
                         </a>
                     </li>
                 </ul>
                 <div class="uk-navbar-item">
-                    <a href="/publicar"
+                    <a href="/create_form"
                        class="uk-button uk-button-primary uk-visible@m">
                         <span data-uk-icon="plus-circle"
                               class="uk-margin-small-right">
-                        </span>Publicar anuncio
+                        </span>Create form
                     </a>
                 </div>
 
@@ -89,7 +88,7 @@
                        class="uk-button uk-button-default uk-visible@m">
                         <span data-uk-icon="sign-in"
                               class="uk-margin-small-right">
-                        </span>Acceder
+                        </span>Sign in
                     </a>
                 </div>
                 {{/usuarioAutenticado}}
@@ -116,49 +115,35 @@
                 data-uk-close>
         </button>
         <ul class="uk-nav uk-nav-default">
-            <li class="uk-nav-header">Inicio</li>
+            <li class="uk-nav-header">Forms</li>
             <li>
-                <a href="/seguidos">
+                <a href="/public_forms">
                     <span class="uk-margin-small-right uk-icon"
                           data-uk-icon="icon: heart">
-                    </span>Seguidos
+                    </span>Public forms
                 </a>
             </li>
             <li>
-                <a href="/misanuncios">
+                <a href="/own_forms">
                     <span class="uk-margin-small-right uk-icon"
                           data-uk-icon="icon: list">
-                    </span>Mis anuncios
+                    </span>Own Forms
                 </a>
             </li>
             <li>
-                <a href="/publicar">
+                <a href="/create_form">
                     <span class="uk-margin-small-right uk-icon"
                           data-uk-icon="icon: plus-circle">
-                    </span>Publicar anuncio
+                    </span>Create form
                 </a>
             </li>
             <li>
                 <a href="/login">
                     <span class="uk-margin-small-right uk-icon"
                           data-uk-icon="icon: sign-in">
-                    </span>Acceder
+                    </span>Sign in
                 </a>
             </li>
-            <li class="uk-nav-header">Categorías</li>
-            <li><a href="/anuncios">Coches</a></li>
-            <li><a href="/anuncios">Motos</a></li>
-            <li><a href="/anuncios">Bicicletas</a></li>
-            <li><a href="/anuncios">Informática</a></li>
-            <li><a href="/anuncios">Teléfonos</a></li>
-            <li><a href="/anuncios">Tv, audio y foto</a></li>
-            <li><a href="/anuncios">Electrodomésticos</a></li>
-            <li><a href="/anuncios">Moda</a></li>
-            <li><a href="/anuncios">Coleccionismo</a></li>
-            <li><a href="/anuncios">Construcción</a></li>
-            <li><a href="/anuncios">Empleo</a></li>
-            <li><a href="/anuncios">Servicios</a></li>
-            <li><a href="/anuncios">Otros</a></li>
         </ul>
     </div>
 </div>
@@ -167,49 +152,6 @@
 
 <!--FOOTER-->
 <footer class="uk-section-secondary">
-    <div class="uk-container uk-section">
-        <div class="uk-grid uk-child-width-1-3@m">
-            <div>
-                <h4 class="uk-margin-top">{{ usuarioAutenticado }}</h4>
-                <ul class="uk-list uk-list-bullet">
-                    <li><a href="#">¿Quiénes somos?</a></li>
-                    <li><a href="#">Prensa</a></li>
-                    <li><a href="#">Empleo</a></li>
-                    <li><a href="#">Equipo</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="uk-margin-top">Legal</h4>
-                <ul class="uk-list uk-list-bullet">
-                    <li><a href="#">Condiciones de uso</a></li>
-                    <li><a href="#">Política de Privacidad</a></li>
-                    <li><a href="#">Cookies</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="uk-margin-top">Suscribirse</h4>
-                <form class="uk-grid uk-grid-collapse" >
-                    <div class="uk-width-expand">
-                        <input class="uk-input" type="email"
-                               placeholder="E-mail">
-                    </div>
-                    <div class="uk-width-auto">
-                        <button class="uk-button uk-button-primary"
-                                data-uk-icon="check">
-                        </button>
-                    </div>
-                </form>
-                <h4>Social</h4>
-                <a class="uk-icon-button  uk-margin-small-right"
-                   data-uk-icon="facebook"></a>
-                <a class="uk-icon-button  uk-margin-small-right"
-                   data-uk-icon="twitter"></a>
-                <a class="uk-icon-button"
-                   data-uk-icon="instagram"></a>
-            </div>
-        </div>
-    </div>
     <div class="uk-section uk-section-xsmall"
          style="background-color: rgba(0,0,0,0.15)">
         <div class="uk-container">
