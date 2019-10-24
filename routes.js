@@ -66,7 +66,7 @@ module.exports = {
                                     usuario: usuarios[0].usuario,
                                     secreto : "secreto"
                                 });
-                                respuesta = h.redirect('/misanuncios')
+                                respuesta = h.redirect('/')
 
                             }
                         });
@@ -104,19 +104,19 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/create_form',
+                path: '/crear_formulario',
                 options: {
                     auth: 'auth-registrado'
                 },
                 handler: async (req, h) => {
-                    return h.view('create_form',
+                    return h.view('crear_formulario',
                         { usuario: 'jordán'},
                         { layout: 'base'});
                 }
             },
             {
                 method: 'POST',
-                path: '/create_form',
+                path: '/crear_formulario',
                 options : {
                     auth: 'auth-registrado',
                     payload: {
@@ -125,10 +125,15 @@ module.exports = {
                 },
                 handler: async (req, h) => {
 
+                    descripcion = {};
+                    arrayPreguntas = req.payload.preguntas.split("\n");
+                    for (i=0; i<arrayPreguntas; i++){
+                        descripcion[i] = arrayPreguntas[i];
+                    }
                     formulario = {
                         usuario: req.auth.credentials ,
-                        titulo: req.payload.title,
-                        descripcion: req.payload.questions,
+                        titulo: req.payload.titulo,
+                        descripcion: descripcion,
 
                     };
 

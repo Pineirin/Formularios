@@ -1,7 +1,7 @@
 <section class="uk-section">
     <div class="uk-card uk-card-default uk-card-body
         uk-width-1-2@m uk-align-center">
-        <form method="post" action="/create_form" encType="multipart/form-data">
+        <form method="post" action="/crear_formulario" encType="multipart/form-data">
             <fieldset class="uk-fieldset">
 
                 <legend class="uk-legend">Información </legend>
@@ -9,27 +9,27 @@
                 <div class="uk-grid uk-margin">
                     <div class="uk-width-2-3">
                         <label class="uk-form-label">
-                            Title:
+                            Título:
                         </label>
                         <input class="uk-input" type="text"
-                               name="title"
-                               placeholder="Title of the form"
+                               name="titulo"
+                               placeholder="Título del formulario"
                                required="true">
                     </div>
                 </div>
 
                 <div class="uk-margin">
-                    <label class="uk-form-label">Questions</label>
+                    <label class="uk-form-label">Preguntas</label>
                     <textarea class="uk-textarea" rows="5"
-                              name="questions"
-                              placeholder="Questions, divided by line jumps (temporal solution)"
+                              name="preguntas"
+                              placeholder="Preguntas, divididas por saltos de linea (solución temporal)"
                               required="true"></textarea>
                 </div>
 
                 <button class="uk-button uk-button-primary uk-width-1-1
                         uk-margin-small-bottom"
                         type="submit">
-                    Create
+                    Crear
                 </button>
             </fieldset>
         </form>
