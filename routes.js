@@ -14,30 +14,11 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/forms/public',
-                handler: async (req, res) => {
-                    let public_forms;
-                    await repositorio.conexion()
-                        .then((db) => repositorio.getPublicForms(db, {is_public: true}))
-                        .then((forms) => {
-                            if(forms){
-                                public_forms = forms;
-                            } else {
-                                public_forms = [];
-                            }
-                        });
-                    return res.view('forms',
-                        {forms: public_forms},
-                        {layout: 'base'});
-                }
-            },
-            {
-                method: 'GET',
                 path: '/registro',
                 handler: async (req, h) => {
                     return h.view('registro',
-                        {forms: miserver.getPublicForms()},
-                        {layout: 'base'});
+                        { },
+                        { layout: 'base'});
                 }
             },
             {
@@ -171,6 +152,25 @@ module.exports = {
                         });
 
                     return respuesta;
+                }
+            },
+            {
+                method: 'GET',
+                path: '/forms/public',
+                handler: async (req, res) => {
+                    let public_forms;
+                    await repositorio.conexion()
+                        .then((db) => repositorio.getPublicForms(db, {is_public: true}))
+                        .then((forms) => {
+                            if(forms){
+                                public_forms = forms;
+                            } else {
+                                public_forms = [];
+                            }
+                        });
+                    return res.view('forms',
+                        {forms: public_forms},
+                        {layout: 'base'});
                 }
             },
             {

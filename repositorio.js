@@ -1,12 +1,12 @@
 module.exports = {
     conexion: async () => {
         var mongo = require("mongodb");
-        /* var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-wykof.mongodb.net:27017,cluster0-shard-" +
+         var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-wykof.mongodb.net:27017,cluster0-shard-" +
             "00-01-wykof.mongodb.net:27017,cluster0-shard-00-02-wykof.mongodb.net:27017/test?ssl=true&replicaSet=" +
-            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // Piñe */
-        var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-rimdf.mongodb.net:27017,cluster0-shard-" +
+            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // Piñe
+        /*var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-rimdf.mongodb.net:27017,cluster0-shard-" +
             "00-01-rimdf.mongodb.net:27017,cluster0-shard-00-02-rimdf.mongodb.net:27017/test?ssl=true&replicaSet=" +
-            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // David
+            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // David*/
         promise = new Promise((resolve, reject) => {
             mongo.MongoClient.connect(db, (err, db) => {
                 if (err) {
