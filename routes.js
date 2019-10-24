@@ -143,10 +143,10 @@ module.exports = {
                 },
                 handler: async (req, h) => {
 
-                    descripcion = {};
+                    descripcion = [];
                     arrayPreguntas = req.payload.preguntas.split("\n");
                     for (i = 0; i < arrayPreguntas; i++) {
-                        descripcion[i] = arrayPreguntas[i];
+                        descripcion.push(arrayPreguntas[i]);
                     }
                     formulario = {
                         usuario: req.auth.credentials,
