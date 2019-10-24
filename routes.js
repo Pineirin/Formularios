@@ -3,7 +3,6 @@ module.exports = {
     register: async (server, options) => {
         miserver = server;
         repositorio = server.methods.getRepositorio();
-
         server.route([
             //Borrar despues de preguntar a jordán
             {
@@ -15,11 +14,30 @@ module.exports = {
             },
             {
                 method: 'GET',
+                path: '/forms/public',
+                handler: async (req, res) => {
+                    let public_forms;
+                    await repositorio.conexion()
+                        .then((db) => repositorio.getPublicForms(db, {is_public: true}))
+                        .then((forms) => {
+                            if(forms){
+                                public_forms = forms;
+                            } else {
+                                public_forms = [];
+                            }
+                        });
+                    return res.view('forms',
+                        {forms: public_forms},
+                        {layout: 'base'});
+                }
+            },
+            {
+                method: 'GET',
                 path: '/registro',
                 handler: async (req, h) => {
                     return h.view('registro',
-                        { },
-                        { layout: 'base'});
+                        {forms: miserver.getPublicForms()},
+                        {layout: 'base'});
                 }
             },
             {
@@ -27,18 +45,18 @@ module.exports = {
                 path: '/login',
                 handler: async (req, h) => {
                     return h.view('login',
-                        { },
-                        { layout: 'base'});
+                        {},
+                        {layout: 'base'});
                 }
             },
             {
                 method: 'GET',
                 path: '/desconectarse',
                 handler: async (req, h) => {
-                    req.cookieAuth.set({ usuario: "", secreto: "" });
+                    req.cookieAuth.set({usuario: "", secreto: ""});
                     return h.view('login',
-                        { },
-                        { layout: 'base'});
+                        {},
+                        {layout: 'base'});
                 }
             },
             {
@@ -59,12 +77,12 @@ module.exports = {
                         .then((db) => repositorio.obtenerUsuarios(db, usuarioBuscar))
                         .then((usuarios) => {
                             respuesta = "";
-                            if (usuarios == null || usuarios.length == 0 ) {
-                                respuesta =  h.redirect('/login?mensaje="Usuario o password incorrecto"')
+                            if (usuarios == null || usuarios.length == 0) {
+                                respuesta = h.redirect('/login?mensaje="Usuario o password incorrecto"')
                             } else {
                                 req.cookieAuth.set({
                                     usuario: usuarios[0].usuario,
-                                    secreto : "secreto"
+                                    secreto: "secreto"
                                 });
                                 respuesta = h.redirect('/')
 
@@ -92,7 +110,7 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta =  h.redirect('/registro?mensaje="Error al crear cuenta"')
+                                respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
                             } else {
                                 respuesta = h.redirect('/login?mensaje="Usuario Creado"')
                                 idAnuncio = id;
@@ -110,14 +128,14 @@ module.exports = {
                 },
                 handler: async (req, h) => {
                     return h.view('crear_formulario',
-                        { usuario: 'jordán'},
-                        { layout: 'base'});
+                        {usuario: 'jordán'},
+                        {layout: 'base'});
                 }
             },
             {
                 method: 'POST',
                 path: '/crear_formulario',
-                options : {
+                options: {
                     auth: 'auth-registrado',
                     payload: {
                         output: 'stream'
@@ -127,11 +145,11 @@ module.exports = {
 
                     descripcion = {};
                     arrayPreguntas = req.payload.preguntas.split("\n");
-                    for (i=0; i<arrayPreguntas; i++){
+                    for (i = 0; i < arrayPreguntas; i++) {
                         descripcion[i] = arrayPreguntas[i];
                     }
                     formulario = {
-                        usuario: req.auth.credentials ,
+                        usuario: req.auth.credentials,
                         titulo: req.payload.titulo,
                         descripcion: descripcion,
 
@@ -145,7 +163,7 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta =   h.redirect('/?mensaje="Error al crear el formulario"')
+                                respuesta = h.redirect('/?mensaje="Error al crear el formulario"')
                             } else {
                                 respuesta = h.redirect('/?mensaje="Formulario creado"');
                                 idAnuncio = id;
@@ -169,8 +187,8 @@ module.exports = {
                 path: '/',
                 handler: async (req, h) => {
                     return h.view('index',
-                        { usuario: 'jordán'},
-                        { layout: 'base'});
+                        {usuario: 'jordán'},
+                        {layout: 'base'});
                 }
             }
         ])

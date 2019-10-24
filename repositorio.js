@@ -1,7 +1,12 @@
 module.exports = {
-    conexion : async () => {
+    conexion: async () => {
         var mongo = require("mongodb");
-        var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-wykof.mongodb.net:27017,cluster0-shard-00-01-wykof.mongodb.net:27017,cluster0-shard-00-02-wykof.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
+        /* var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-wykof.mongodb.net:27017,cluster0-shard-" +
+            "00-01-wykof.mongodb.net:27017,cluster0-shard-00-02-wykof.mongodb.net:27017/test?ssl=true&replicaSet=" +
+            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // Piñe */
+        var db = "mongodb://admin:informatica1234@cluster0-shard-00-00-rimdf.mongodb.net:27017,cluster0-shard-" +
+            "00-01-rimdf.mongodb.net:27017,cluster0-shard-00-02-rimdf.mongodb.net:27017/test?ssl=true&replicaSet=" +
+            "Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"; // David
         promise = new Promise((resolve, reject) => {
             mongo.MongoClient.connect(db, (err, db) => {
                 if (err) {
@@ -13,10 +18,25 @@ module.exports = {
         });
         return promise;
     },
-    obtenerUsuarios : async (db, criterio) => {
+    getPublicForms: async (db, criterio) => {
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('formularios');
+            collection.find(criterio).toArray((err, result) => {
+                if (err) {
+                    resolve(null);
+                } else {
+                    // Lista de formularios
+                    resolve(result);
+                }
+                db.close();
+            });
+        });
+        return promise;
+    },
+    obtenerUsuarios: async (db, criterio) => {
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('usuarios');
-            collection.find(criterio).toArray( (err, result) => {
+            collection.find(criterio).toArray((err, result) => {
                 if (err) {
                     resolve(null);
                 } else {
@@ -29,7 +49,7 @@ module.exports = {
 
         return promise;
     },
-    insertarUsuario : async (db, usuario) => {
+    insertarUsuario: async (db, usuario) => {
 
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('usuarios');
@@ -46,7 +66,7 @@ module.exports = {
 
         return promise;
     },
-    insertarFormulario : async (db, formulario) => {
+    insertarFormulario: async (db, formulario) => {
 
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('formularios');
