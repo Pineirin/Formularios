@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f292b6c3-8394-4381-b46a-cdb750a0aba9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repositorio.js" beforeDir="false" afterPath="$PROJECT_DIR$/repositorio.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/formularios_publicos.html" beforeDir="false" afterPath="$PROJECT_DIR$/views/formularios_publicos.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,13 +43,14 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Pineirin\Documents\git\Formularios\views" />
-      <recent name="C:\Users\Pineirin\Documents\git\Formularios\create_form" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Pineirin\Documents\git\Formularios\views" />
       <recent name="C:\Users\jordansoy\WebstormProjects\web\public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\UO245371\Documents\git\Formularios\views" />
+      <recent name="C:\Users\Pineirin\Documents\git\Formularios\views" />
+      <recent name="C:\Users\Pineirin\Documents\git\Formularios\create_form" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -103,7 +106,7 @@
       <workItem from="1571680600462" duration="833000" />
       <workItem from="1571733089991" duration="5179000" />
       <workItem from="1571913092673" duration="8117000" />
-      <workItem from="1571934586368" duration="1588000" />
+      <workItem from="1571934586368" duration="5264000" />
     </task>
     <servers />
   </component>

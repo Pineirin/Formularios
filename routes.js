@@ -109,7 +109,9 @@ module.exports = {
                 },
                 handler: async (req, h) => {
                     return h.view('crear_formulario',
-                        {usuario: 'jordán'},
+                        {
+                            usuarioAutenticado: req.auth.credentials,
+                        },
                         {layout: 'base'});
                 }
             },
@@ -157,20 +159,36 @@ module.exports = {
             {
                 method: 'GET',
                 path: '/formularios_publicos',
-                handler: async (req, res) => {
-                    let public_forms;
+                handler: async (req, h) => {
+
+                    var criterio = {};
+                    var listaFormularios = [];
+                    if (req.query.criterio != null ){
+                        criterio = { "titulo" : {$regex : ".*"+req.query.criterio+".*"}};
+                    }
                     await repositorio.conexion()
-                        .then((db) => repositorio.getPublicForms(db, {is_public: true}))
+                        .then((db) => repositorio.obtenerFormulariosPublicos(db, criterio))
                         .then((formularios) => {
-                            if(formularios){
-                                public_forms = formularios;
-                            } else {
-                                public_forms = [];
-                            }
+                            listaFormularios = formularios;
                         });
-                    return res.view('formularios_publicos',
-                        {formularios: 'formularios'},
-                        {layout: 'base'});
+
+                    // Recorte
+                    listaFormularios.forEach( (e) => {
+                        if (e.titulo.length > 25){
+                            e.titulo =
+                                e.titulo.substring(0, 25) + "...";
+                        }
+                        if (e.descripcion.length > 80) {
+                            e.descripcion =
+                                e.descripcion.substring(0, 80) + "...";;
+                        }
+                    });
+
+                    return h.view('formularios_publicos',
+                        {
+                            usuarioAutenticado: req.auth.credentials,
+                            formularios: listaFormularios,
+                        }, { layout: 'base'} );
                 }
             },
             {
@@ -187,7 +205,9 @@ module.exports = {
                 path: '/',
                 handler: async (req, h) => {
                     return h.view('index',
-                        {usuario: 'jordán'},
+                        {
+                            usuarioAutenticado: req.auth.credentials,
+                        },
                         {layout: 'base'});
                 }
             }
