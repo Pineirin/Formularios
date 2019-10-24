@@ -161,15 +161,15 @@ module.exports = {
                     let public_forms;
                     await repositorio.conexion()
                         .then((db) => repositorio.getPublicForms(db, {is_public: true}))
-                        .then((forms) => {
-                            if(forms){
-                                public_forms = forms;
+                        .then((formularios) => {
+                            if(formularios){
+                                public_forms = formularios;
                             } else {
                                 public_forms = [];
                             }
                         });
                     return res.view('formularios_publicos',
-                        {forms: 'formularios'},
+                        {formularios: 'formularios'},
                         {layout: 'base'});
                 }
             },
