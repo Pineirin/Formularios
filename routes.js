@@ -24,6 +24,15 @@ module.exports = {
             },
             {
                 method: 'GET',
+                path: '/registro',
+                handler: async (req, h) => {
+                    return h.view('registro',
+                        { },
+                        { layout: 'base'});
+                }
+            },
+            {
+                method: 'GET',
                 path: '/login',
                 handler: async (req, h) => {
                     return h.view('login',
@@ -51,7 +60,7 @@ module.exports = {
                     usuarioBuscar = {
                         usuario: req.payload.usuario,
                         password: password,
-                    }
+                    };
 
                     // await no continuar hasta acabar esto
                     // Da valor a respuesta
@@ -83,7 +92,7 @@ module.exports = {
                     usuario = {
                         usuario: req.payload.usuario,
                         password: password,
-                    }
+                    };
 
                     // await no continuar hasta acabar esto
                     // Da valor a respuesta
@@ -95,6 +104,66 @@ module.exports = {
                                 respuesta =  h.redirect('/registro?mensaje="Error al crear cuenta"')
                             } else {
                                 respuesta = h.redirect('/login?mensaje="Usuario Creado"')
+                                idAnuncio = id;
+                            }
+                        });
+
+                    return respuesta;
+                }
+            },
+            {
+                method: 'GET',
+                path: 'create_form',
+                handler: {
+                    handler: async (req, h) => {
+                        req.cookieAuth.set({ usuario: "", secreto: "" });
+                        return h.view('login',
+                            { },
+                            { layout: 'base'});
+                    }
+                }
+            },
+            {
+                method: 'GET',
+                path: '/create_form',
+                options: {
+                    auth: 'auth-registrado'
+                },
+                handler: async (req, h) => {
+                    return h.view('create_form',
+                        { usuario: 'jordán'},
+                        { layout: 'base'});
+                }
+            },
+            {
+                method: 'POST',
+                path: '/create_form',
+                options : {
+                    auth: 'auth-registrado',
+                    payload: {
+                        output: 'stream'
+                    }
+                },
+                handler: async (req, h) => {
+
+                    formulario = {
+                        usuario: req.auth.credentials ,
+                        titulo: req.payload.title,
+                        descripcion: req.payload.questions,
+
+                    };
+
+                    // await no continuar hasta acabar esto
+                    // Da valor a respuesta
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.insertarFormulario(db, formulario))
+                        .then((id) => {
+                            respuesta = "";
+                            if (id == null) {
+                                respuesta =   h.redirect('/?mensaje="Error al crear el formulario"')
+                            } else {
+                                respuesta = h.redirect('/?mensaje="Formulario creado"');
                                 idAnuncio = id;
                             }
                         });
