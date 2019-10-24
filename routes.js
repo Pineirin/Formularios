@@ -24,15 +24,6 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/registro',
-                handler: async (req, h) => {
-                    return h.view('registro',
-                        { },
-                        { layout: 'base'});
-                }
-            },
-            {
-                method: 'GET',
                 path: '/login',
                 handler: async (req, h) => {
                     return h.view('login',
@@ -109,18 +100,6 @@ module.exports = {
                         });
 
                     return respuesta;
-                }
-            },
-            {
-                method: 'GET',
-                path: 'create_form',
-                handler: {
-                    handler: async (req, h) => {
-                        req.cookieAuth.set({ usuario: "", secreto: "" });
-                        return h.view('login',
-                            { },
-                            { layout: 'base'});
-                    }
                 }
             },
             {
