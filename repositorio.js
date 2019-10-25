@@ -83,4 +83,24 @@ module.exports = {
 
         return promise;
     },
+    obtenerMisFormulariosPg : async (db, pg, criterio) => {
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('formularios');
+            collection.count( criterio, (err, count) => {
+                collection.find(criterio).skip( (pg-1)*2 ).limit( 2 )
+                    .toArray( (err, result) => {
+
+                        if (err) {
+                            resolve(null);
+                        } else {
+                            result.total = count;
+                            resolve(result);
+                        }
+                        db.close();
+                    });
+            })
+        });
+
+        return promise;
+    },
 };

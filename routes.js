@@ -178,7 +178,6 @@ module.exports = {
                             e.titulo =
                                 e.titulo.substring(0, 25) + "...";
                         }
-
                         if (e.descripcion.length > 80) {
                             e.descripcion =
                                 e.descripcion.substring(0, 80) + "...";
@@ -190,6 +189,54 @@ module.exports = {
                             usuarioAutenticado: req.state["session-id"].usuario,
                             formularios: listaFormularios,
                         }, { layout: 'base'} );
+                }
+            },
+            {
+                method: 'GET',
+                path: '/mis_formularios',
+                options: {
+                    auth: 'auth-registrado'
+                },
+                handler: async (req, h) => {
+
+                    var listaFormularios = [];
+                    var pg = parseInt(req.query.pg);
+                    if ( req.query.pg == null){
+                        pg = 1;
+                    }
+
+                    var criterio = { "usuario" : req.auth.credentials };
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerMisFormulariosPg(db, pg, criterio))
+                        .then((formularios, total) => {
+                            listaFormularios = formularios;
+                            pgUltima = listaFormularios.total/2;
+
+                            // La págian 2.5 no existe
+                            // Si excede sumar 1 y quitar los decimales
+                            if (pgUltima % 2 > 0 ){
+                                pgUltima = Math.trunc(pgUltima);
+                                pgUltima = pgUltima+1;
+                            }
+
+                        });
+
+                    var paginas = [];
+                    for( i=1; i <= pgUltima; i++){
+                        if ( i == pg ){
+                            paginas.push({valor: i , clase : "uk-active" });
+                        } else {
+                            paginas.push({valor: i});
+                        }
+                    }
+                    return h.view('mis_formularios',
+                        {
+                            formularios: listaFormularios,
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                            paginas : paginas
+                        },
+                        { layout: 'base'} );
                 }
             },
             {
