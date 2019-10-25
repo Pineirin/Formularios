@@ -65,7 +65,7 @@ module.exports = {
                                     usuario: usuarios[0].usuario,
                                     secreto: "secreto"
                                 });
-                                respuesta = h.redirect('/')
+                                respuesta = h.redirect('/formularios_publicos')
 
                             }
                         });
@@ -115,7 +115,7 @@ module.exports = {
                         {layout: 'base'});
                 }
             },
-            {
+            /*{
                 method: 'POST',
                 path: '/crear_formulario',
                 options: {
@@ -155,7 +155,7 @@ module.exports = {
 
                     return respuesta;
                 }
-            },
+            },*/
             {
                 method: 'GET',
                 path: '/formularios_publicos',

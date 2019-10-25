@@ -5,3 +5,11 @@ body {
 header {
     background: white;
 }
+
+.btn-group {
+    width: 100%;
+}
+
+.btn-group > button {
+    width: 33%;
+}
