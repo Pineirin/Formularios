@@ -110,7 +110,7 @@ module.exports = {
                 handler: async (req, h) => {
                     return h.view('crear_formulario',
                         {
-                            usuarioAutenticado: req.auth.credentials,
+                            usuarioAutenticado: req.state["session-id"].usuario,
                         },
                         {layout: 'base'});
                 }
@@ -132,7 +132,7 @@ module.exports = {
                         descripcion.push(arrayPreguntas[i]);
                     }
                     formulario = {
-                        usuario: req.auth.credentials,
+                        usuario: req.state["session-id"].usuario,
                         titulo: req.payload.titulo,
                         descripcion: descripcion,
 
@@ -187,7 +187,7 @@ module.exports = {
 
                     return h.view('formularios_publicos',
                         {
-                            usuarioAutenticado: req.auth.credentials,
+                            usuarioAutenticado: req.state["session-id"].usuario,
                             formularios: listaFormularios,
                         }, { layout: 'base'} );
                 }
@@ -207,7 +207,7 @@ module.exports = {
                 handler: async (req, h) => {
                     return h.view('index',
                         {
-                            usuarioAutenticado: req.auth.credentials,
+                            usuarioAutenticado: req.state["session-id"].usuario,
                         },
                         {layout: 'base'});
                 }
