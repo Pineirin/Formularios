@@ -178,9 +178,10 @@ module.exports = {
                             e.titulo =
                                 e.titulo.substring(0, 25) + "...";
                         }
+
                         if (e.descripcion.length > 80) {
                             e.descripcion =
-                                e.descripcion.substring(0, 80) + "...";;
+                                e.descripcion.substring(0, 80) + "...";
                         }
                     });
 
