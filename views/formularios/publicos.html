@@ -16,4 +16,14 @@
 
         </div>
     </div>
+
+    <ul class="uk-pagination uk-flex-center" uk-margin>
+        {{#each paginas}}
+
+        <li class="{{ clase }}">
+            <a href="/formularios/publicos?pg={{valor}}">{{valor}}</a>
+        </li>
+
+        {{/each}}
+    </ul>
 </section>

@@ -161,16 +161,39 @@ module.exports = {
                 path: '/formularios/publicos',
                 handler: async (req, h) => {
 
+                    var pg = parseInt(req.query.pg);
+                    if ( req.query.pg == null){
+                        pg = 1;
+                    }
+
                     var criterio = {};
                     var listaFormularios = [];
+
                     if (req.query.criterio != null ){
-                        criterio = { "titulo" : {$regex : ".*"+req.query.criterio+".*"}};
+                        criterio = { "_id" : {$regex : ".*"+req.query.criterio+".*"}};
                     }
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPublicos(db, criterio))
-                        .then((formularios) => {
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
+                        .then((formularios, total) => {
                             listaFormularios = formularios;
+                            pgUltima = listaFormularios.total/6;
+
+                            // La págian 2.5 no existe
+                            // Si excede sumar 1 y quitar los decimales
+                            if (pgUltima % 2 > 0 ){
+                                pgUltima = Math.trunc(pgUltima);
+                                pgUltima = pgUltima+1;
+                            }
                         });
+
+                    var paginas = [];
+                    for( i=1; i <= pgUltima; i++){
+                        if ( i == pg ){
+                            paginas.push({valor: i , clase : "uk-active" });
+                        } else {
+                            paginas.push({valor: i});
+                        }
+                    }
 
                     // Recorte
                     listaFormularios.forEach( (e) => {
@@ -188,6 +211,7 @@ module.exports = {
                         {
                             usuarioAutenticado: req.state["session-id"].usuario,
                             formularios: listaFormularios,
+                            paginas : paginas
                         }, { layout: 'base'} );
                 }
             },
@@ -199,19 +223,19 @@ module.exports = {
                 },
                 handler: async (req, h) => {
 
-                    var listaFormularios = [];
                     var pg = parseInt(req.query.pg);
                     if ( req.query.pg == null){
                         pg = 1;
                     }
 
                     var criterio = { "usuario" : req.auth.credentials };
+                    var listaFormularios = [];
 
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio))
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
-                            pgUltima = listaFormularios.total/5;
+                            pgUltima = listaFormularios.total/4;
 
                             // La págian 2.5 no existe
                             // Si excede sumar 1 y quitar los decimales
