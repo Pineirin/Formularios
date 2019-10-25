@@ -65,7 +65,7 @@ module.exports = {
                                     usuario: usuarios[0].usuario,
                                     secreto: "secreto"
                                 });
-                                respuesta = h.redirect('/formularios_publicos')
+                                respuesta = h.redirect('/formularios/publicos')
 
                             }
                         });
@@ -103,12 +103,12 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/crear_formulario',
+                path: '/formularios/crear',
                 options: {
                     auth: 'auth-registrado'
                 },
                 handler: async (req, h) => {
-                    return h.view('crear_formulario',
+                    return h.view('formularios/crear',
                         {
                             usuarioAutenticado: req.state["session-id"].usuario,
                         },
@@ -117,7 +117,7 @@ module.exports = {
             },
             /*{
                 method: 'POST',
-                path: '/crear_formulario',
+                path: '/formularios/crear',
                 options: {
                     auth: 'auth-registrado',
                     payload: {
@@ -158,7 +158,7 @@ module.exports = {
             },*/
             {
                 method: 'GET',
-                path: '/formularios_publicos',
+                path: '/formularios/publicos',
                 handler: async (req, h) => {
 
                     var criterio = {};
@@ -184,7 +184,7 @@ module.exports = {
                         }
                     });
 
-                    return h.view('formularios_publicos',
+                    return h.view('formularios/publicos',
                         {
                             usuarioAutenticado: req.state["session-id"].usuario,
                             formularios: listaFormularios,
@@ -193,7 +193,7 @@ module.exports = {
             },
             {
                 method: 'GET',
-                path: '/mis_formularios',
+                path: '/formularios/propios',
                 options: {
                     auth: 'auth-registrado'
                 },
@@ -208,7 +208,7 @@ module.exports = {
                     var criterio = { "usuario" : req.auth.credentials };
 
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerMisFormulariosPg(db, pg, criterio))
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
                             pgUltima = listaFormularios.total/5;
@@ -230,7 +230,7 @@ module.exports = {
                             paginas.push({valor: i});
                         }
                     }
-                    return h.view('mis_formularios',
+                    return h.view('formularios/propios',
                         {
                             formularios: listaFormularios,
                             usuarioAutenticado: req.state["session-id"].usuario,
@@ -253,7 +253,7 @@ module.exports = {
                             console.log("Eliminado")
                         });
 
-                    return h.redirect('/mis_formularios?mensaje="Fomulario Eliminado"')
+                    return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
                 }
             },
             {

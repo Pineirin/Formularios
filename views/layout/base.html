@@ -54,14 +54,14 @@
                 <!-- uk-visible@m Lo visualiza en pantallas más pequeñas de m-->
                 <ul class="uk-navbar-nav uk-visible@m">
                     <li>
-                        <a href="/formularios_publicos">
+                        <a href="/formularios/publicos">
                             <span data-uk-icon="list"
                                   class="uk-margin-small-right">
                             </span>Formularios Públicos
                         </a>
                     </li>
                     <li>
-                        <a href="/mis_formularios">
+                        <a href="/formularios/propios">
                             <span data-uk-icon="list"
                                   class="uk-margin-small-right">
                             </span>Mis Formularios
@@ -69,7 +69,7 @@
                     </li>
                 </ul>
                 <div class="uk-navbar-item">
-                    <a href="/crear_formulario"
+                    <a href="/formularios/crear"
                        class="uk-button uk-button-primary uk-visible@m">
                         <span data-uk-icon="plus-circle"
                               class="uk-margin-small-right">
@@ -82,6 +82,12 @@
                     <div class="uk-button uk-button-default uk-visible@m">
                          {{usuarioAutenticado}}
                     </div>
+                    <a href="/desconectarse"
+                       class="uk-button uk-button-default uk-visible@m">
+                        <span data-uk-icon="sign-in"
+                              class="uk-margin-small-right">
+                        </span>Desconectarse
+                    </a>
                 </div>
                 {{/if}}
                 {{^usuarioAutenticado}}
