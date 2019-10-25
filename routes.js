@@ -211,7 +211,7 @@ module.exports = {
                         .then((db) => repositorio.obtenerMisFormulariosPg(db, pg, criterio))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
-                            pgUltima = listaFormularios.total/2;
+                            pgUltima = listaFormularios.total/5;
 
                             // La págian 2.5 no existe
                             // Si excede sumar 1 y quitar los decimales
@@ -237,6 +237,23 @@ module.exports = {
                             paginas : paginas
                         },
                         { layout: 'base'} );
+                }
+            },
+            {
+                method: 'GET',
+                path: '/formularios/{id}/eliminar',
+                handler: async (req, h) => {
+
+                    var criterio = { "_id" :
+                            require("mongodb").ObjectID(req.params.id) };
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.eliminarFormularios(db, criterio))
+                        .then((resultado) => {
+                            console.log("Eliminado")
+                        });
+
+                    return h.redirect('/mis_formularios?mensaje="Fomulario Eliminado"')
                 }
             },
             {

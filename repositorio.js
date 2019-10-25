@@ -87,7 +87,7 @@ module.exports = {
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('formularios');
             collection.count( criterio, (err, count) => {
-                collection.find(criterio).skip( (pg-1)*2 ).limit( 2 )
+                collection.find(criterio).skip( (pg-1)*5 ).limit( 5 )
                     .toArray( (err, result) => {
 
                         if (err) {
@@ -99,6 +99,21 @@ module.exports = {
                         db.close();
                     });
             })
+        });
+
+        return promise;
+    },
+    eliminarFormularios : async (db, criterio) => {
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('anuncios');
+            collection.remove(criterio, (err, result) => {
+                if (err) {
+                    resolve(null);
+                } else {
+                    resolve(result);
+                }
+                db.close();
+            });
         });
 
         return promise;
