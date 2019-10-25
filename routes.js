@@ -168,10 +168,9 @@ module.exports = {
 
                     var criterio = {};
                     var listaFormularios = [];
+                    
+                    criterio = { "is_public" : true};
 
-                    if (req.query.criterio != null ){
-                        criterio = { "_id" : {$regex : ".*"+req.query.criterio+".*"}};
-                    }
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
                         .then((formularios, total) => {
