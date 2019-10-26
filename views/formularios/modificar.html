@@ -1,43 +1,43 @@
 <section class="uk-section">
     <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m uk-align-center">
-        <form method="post" action="/formularios/crear">
+        <form method="post" action="/formularios/{{ id }}/modificar">
             <fieldset class="uk-fieldset">
                 <legend class="uk-legend">Creación de encuesta:</legend>
                 <div class="uk-grid uk-margin">
                     <div class="uk-width-1-1">
                         <label class="uk-form-label">Título:</label>
-                        <input class="uk-input" type="text" name="titulo" placeholder="Título del formulario">
+                        <input class="uk-input" type="text" name="titulo" value="{{formulario.titulo}}" placeholder="Título del formulario">
                     </div>
                 </div>
                 <div class="uk-grid uk-margin">
                     <div class="uk-width-1-1">
                         <label class="uk-form-label">Descripción:</label>
-                        <input class="uk-input" type="text" name="descripcion" placeholder="Descripción del formulario">
+                        <input class="uk-input" type="text" name="descripcion" value="{{formulario.descripcion}}" placeholder="Descripción del formulario">
                     </div>
                 </div>
                 {{#each formulario.preguntas}}
                     {{#if (equals tipo "Texto")}}
                         <div class="uk-grid uk-margin">
                             <div class="uk-width-1-1">
-                                <label class="uk-form-label">{{ valor }}:</label>
-                                <input class="uk-input" type="text" name="{{ pos }}" placeholder="Introduzca una cadena de texto">
+                                <label class="uk-form-label">Pregunta de tipo texto:</label>
+                                <input class="uk-input" type="text" name="{{ pos }}" value="{{valor}}" placeholder="Inserte la pregunta">
                             </div>
                         </div>
                     {{/if}}
                     {{#if (equals tipo "Numero")}}
                         <div class="uk-grid uk-margin">
                             <div class="uk-width-1-1">
-                                <label class="uk-form-label">{{ valor }}:</label>
-                                <input class="uk-input" type="number" name="{{ pos }}" placeholder="Introduzca un valor numérico">
+                                <label class="uk-form-label">Pregunta de tipo número:</label>
+                                <input class="uk-input" type="text" name="{{ pos }}" value="{{valor}}" placeholder="Inserte la pregunta">
                             </div>
                         </div>
                     {{/if}}
                     {{#if (equals tipo "Opciones")}}
                         <div class="uk-grid uk-margin">
                             <div class="uk-width-1-1">
-                                <label class="uk-form-label">{{ valor }}:</label>
+                                <label class="uk-form-label">Pregunta de tipo opciones:</label>
                                 {{#each opciones}}
-                                <br><input class="uk-radio" type="radio" name = "{{ pos }}" value = "{{ this }}">{{ this }}
+                                    <input class="uk-input" type="text" name="{{ pos }}" value="{{this}}" placeholder="Inserte la pregunta">
                                 {{/each}}
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     Añadir pregunta
                 </div>
                 <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" type="submit">
-                    Crear
+                    Modificar
                 </button>
             </fieldset>
         </form>
