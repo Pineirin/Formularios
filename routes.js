@@ -313,8 +313,7 @@ module.exports = {
                 options:
                     {
                         auth: 'auth-registrado'
-                    }
-                ,
+                    },
                 handler: async (req, h) => {
 
 
@@ -343,11 +342,7 @@ module.exports = {
                     '/formularios/{id}/responder',
                 options:
                     {
-                        auth: 'auth-registrado',
-                        payload:
-                            {
-                                output: 'stream'
-                            }
+                        auth: 'auth-registrado'
                     }
                 ,
                 handler: async (req, h) => {
@@ -364,10 +359,7 @@ module.exports = {
                     formulario.preguntas[0].usuarios.push(req.state["session-id"]._id);
 
                     for (i = 1; i<formulario.preguntas.length; i++){
-                        var value = formulario.preguntas[i].name;
-                        console.log(value);
-                        console.log(req.payload.value);
-                        console.log(req.payload[value]);
+                        console.log(req.payload);
                         formulario.preguntas[i].respuestas.push(req.payload.name)
                     }
 
