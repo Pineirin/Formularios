@@ -306,6 +306,47 @@ module.exports = {
                 }
             },
             {
+                method: 'POST',
+                path: '/formularios/{id}',
+                options: {
+                    auth: 'auth-registrado',
+                    payload: {
+                        output: 'stream'
+                    }
+                },
+                handler: async (req, h) => {
+
+                    descripcion = [];
+                    arrayPreguntas = req.payload.preguntas.split("\n");
+                    for (i = 0; i < arrayPreguntas; i++) {
+                        descripcion.push(arrayPreguntas[i]);
+                    }
+                    formulario = {
+                        usuario: req.state["session-id"].usuario,
+                        titulo: req.payload.titulo,
+                        descripcion: descripcion,
+
+                    };
+
+                    // await no continuar hasta acabar esto
+                    // Da valor a respuesta
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.insertarFormulario(db, formulario))
+                        .then((id) => {
+                            respuesta = "";
+                            if (id == null) {
+                                respuesta = h.redirect('/?mensaje="Error al crear el formulario"')
+                            } else {
+                                respuesta = h.redirect('/?mensaje="Formulario creado"');
+                                idAnuncio = id;
+                            }
+                        });
+
+                    return respuesta;
+                }
+            },
+            {
                 method: 'GET',
                 path: '/{param*}',
                 handler: {
