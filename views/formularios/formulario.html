@@ -2,7 +2,7 @@
     <div class="uk-container">
         <div class="uk-overflow-auto">
 
-            <form method="post" action="/formularios/{{ _id }}/responder">
+            <form method="post" action="/formularios/{{ id }}/responder">
                 <fieldset class="uk-fieldset">
                     <legend class="uk-legend">{{ formulario.titulo }}:</legend>
 
@@ -11,7 +11,7 @@
                             <div class="uk-grid uk-margin">
                                 <div class="uk-width-1-1">
                                     <label class="uk-form-label">{{ valor }}:</label>
-                                    <input class="uk-input" type="text" name="{{ valor }}" placeholder="Introduzca una cadena de texto">
+                                    <input class="uk-input" type="text" name="{{ name }}" placeholder="Introduzca una cadena de texto">
                                 </div>
                             </div>
                         {{/if}}
@@ -19,7 +19,7 @@
                             <div class="uk-grid uk-margin">
                                 <div class="uk-width-1-1">
                                     <label class="uk-form-label">{{ valor }}:</label>
-                                    <input class="uk-input" type="number" name="{{ valor }}" placeholder="Introduzca un valor numérico">
+                                    <input class="uk-input" type="number" name="{{ name }}" placeholder="Introduzca un valor numérico">
                                 </div>
                             </div>
                         {{/if}}
@@ -28,7 +28,7 @@
                                 <div class="uk-width-1-1">
                                     <label class="uk-form-label">{{ valor }}:</label>
                                     {{#each opciones}}
-                                        <br><input type="radio" name = "{{../valor}}" value = "{{ this }}">{{ this }}
+                                        <br><input class="uk-radio" type="radio" name = "{{ name }}" value = "{{ this }}">{{ this }}
                                     {{/each}}
                                 </div>
                             </div>

@@ -309,7 +309,7 @@ module.exports = {
             {
                 method: 'GET',
                 path:
-                    '/formularios/{id}',
+                    '/formularios/{id}/responder',
                 options:
                     {
                         auth: 'auth-registrado'
@@ -319,17 +319,18 @@ module.exports = {
 
 
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
-                    var listaFormularios = [];
+                    var formulario;
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
                         .then((formularios) => {
-                            listaFormularios = formularios;
+                            formulario = formularios[0];
                         });
 
                     return h.view('formularios/formulario',
                         {
-                            formulario: listaFormularios[0],
+                            id: require("mongodb").ObjectID(req.params.id),
+                            formulario: formulario,
                             usuarioAutenticado: req.state["session-id"].usuario,
                         },
                         {layout: 'base'});
@@ -339,7 +340,7 @@ module.exports = {
             {
                 method: 'POST',
                 path:
-                    '/formularios/{id}',
+                    '/formularios/{id}/responder',
                 options:
                     {
                         auth: 'auth-registrado',
@@ -350,16 +351,38 @@ module.exports = {
                     }
                 ,
                 handler: async (req, h) => {
-                    var criterio = { "_id" : require("mongodb").ObjectID(req.params.id) };
 
-                    anuncio = {
-                        usuario: req.state["session-id"].usuario,
-                        titulo: req.payload.titulo,
-                        descripcion: req.payload.descripcion,
-                        categoria: req.payload.categoria,
-                        precio: Number.parseFloat(req.payload.precio),
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
+
+                    formulario.preguntas[0].usuarios.push(req.state["session-id"]._id);
+
+                    for (i = 1; i<formulario.preguntas.length; i++){
+                        var value = formulario.preguntas[i].name;
+                        console.log(value);
+                        console.log(req.payload.value);
+                        console.log(req.payload[value]);
+                        formulario.preguntas[i].respuestas.push(req.payload.name)
                     }
 
+                    await repositorio.conexion()
+                        .then((db) => repositorio.modificarFormulario(db,criterio,formulario))
+                        .then((id) => {
+                            respuesta = "";
+                            if (id == null) {
+                                respuesta =  "Error al modificar"
+                            } else {
+                                respuesta = "Modificado ";
+                            }
+                        });
+
+                    return respuesta;
 
                 }
             }

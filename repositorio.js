@@ -118,4 +118,23 @@ module.exports = {
 
         return promise;
     },
+
+    modificarFormulario : async (db, criterio, formulario) => {
+
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('formularios');
+            collection.update(criterio, {$set: formulario}, (err, result) => {
+                if (err) {
+                    resolve(null);
+                } else {
+                    // modificado
+                    resolve(result);
+                }
+                db.close();
+            });
+        });
+
+        return promise;
+    },
+
 };
