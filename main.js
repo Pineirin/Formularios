@@ -65,10 +65,10 @@ const iniciar_server = async () => {
         });
 
         handlebars.registerHelper("equals", (a, b) => {
-            if(a == b) // Or === depending on your needs
-                return opts.fn(this);
-            else
-                return opts.inverse(this);
+                if(a == b) // Or === depending on your needs
+                    return true;
+                else
+                    return false;
         });
 
         await server.register(routes);
