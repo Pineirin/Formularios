@@ -34,6 +34,21 @@ module.exports = {
 
         return promise;
     },
+    obtenerFormularios : async (db, criterio) => {
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('formularios');
+            collection.find(criterio).toArray( (err, result) => {
+                if (err) {
+                    resolve(null);
+                } else {
+                    resolve(result);
+                }
+                db.close();
+            });
+        });
+
+        return promise;
+    },
     insertarUsuario: async (db, usuario) => {
 
         promise = new Promise((resolve, reject) => {

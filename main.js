@@ -64,6 +64,13 @@ const iniciar_server = async () => {
             return a + b;
         });
 
+        handlebars.registerHelper("equals", (a, b) => {
+            if(a == b) // Or === depending on your needs
+                return opts.fn(this);
+            else
+                return opts.inverse(this);
+        });
+
         await server.register(routes);
         await server.views({
             engines: {

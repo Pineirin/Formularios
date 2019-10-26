@@ -169,7 +169,7 @@ module.exports = {
                     var criterio = {};
                     var listaFormularios = [];
                     
-                    criterio = { "is_public" : true};
+                    criterio = { "public" : true};
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
@@ -231,7 +231,7 @@ module.exports = {
                     var listaFormularios = [];
 
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 5))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
                             pgUltima = listaFormularios.total/4;
@@ -277,6 +277,32 @@ module.exports = {
                         });
 
                     return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
+                }
+            },
+            {
+                method: 'GET',
+                path: '/formularios/{id}',
+                options: {
+                    auth: 'auth-registrado'
+                },
+                handler: async (req, h) => {
+
+
+                    var criterio = { "_id" : require("mongodb").ObjectID(req.params.id) };
+                    var listaFormularios = [];
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            listaFormularios = formularios;
+                        });
+
+                    return h.view('formularios/formulario',
+                        {
+                            formulario: listaFormularios[0],
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                        },
+                        { layout: 'base'} );
                 }
             },
             {
