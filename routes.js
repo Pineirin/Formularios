@@ -160,9 +160,9 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta = h.redirect('/?mensaje="Error al crear el formulario"')
+                                respuesta = h.redirect('/formularios/propios?mensaje="Error al crear el formulario"')
                             } else {
-                                respuesta = h.redirect('/?mensaje="Formulario creado"');
+                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario creado"');
                                 idAnuncio = id;
                             }
                         });
@@ -292,8 +292,7 @@ module.exports = {
                     async (req, h) => {
 
                         var criterio = {
-                            "_id":
-                                require("mongodb").ObjectID(req.params.id)
+                            "_id": require("mongodb").ObjectID(req.params.id)
                         };
 
                         await repositorio.conexion()
@@ -397,11 +396,7 @@ module.exports = {
                     '/',
                 handler:
                     async (req, h) => {
-                        return h.view('index',
-                            {
-                                usuarioAutenticado: req.state["session-id"].usuario,
-                            },
-                            {layout: 'base'});
+                        return h.redirect("/formularios/publicos")
                     }
             }
         ])

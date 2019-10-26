@@ -105,7 +105,7 @@ module.exports = {
     },
     eliminarFormularios : async (db, criterio) => {
         promise = new Promise((resolve, reject) => {
-            var collection = db.collection('anuncios');
+            var collection = db.collection('formularios');
             collection.remove(criterio, (err, result) => {
                 if (err) {
                     resolve(null);
