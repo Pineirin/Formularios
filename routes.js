@@ -17,8 +17,8 @@ module.exports = {
                 path: '/registro',
                 handler: async (req, h) => {
                     return h.view('registro',
-                        { },
-                        { layout: 'base'});
+                        {},
+                        {layout: 'base'});
                 }
             },
             {
@@ -115,31 +115,45 @@ module.exports = {
                         {layout: 'base'});
                 }
             },
-            /*{
+            {
                 method: 'POST',
                 path: '/formularios/crear',
                 options: {
-                    auth: 'auth-registrado',
-                    payload: {
-                        output: 'stream'
-                    }
+                    auth: 'auth-registrado'
                 },
                 handler: async (req, h) => {
+                    var preguntas = [];
 
-                    descripcion = [];
-                    arrayPreguntas = req.payload.preguntas.split("\n");
-                    for (i = 0; i < arrayPreguntas; i++) {
-                        descripcion.push(arrayPreguntas[i]);
+                    // Buscamos preguntas según su tipo
+                    for (let i = 2; i < Object.keys(req.payload).length; i++) {
+                        var name = Object.keys(req.payload)[i];
+                        var aux = req.payload[name];
+                        var temp = {
+                            valor: aux,
+                            pos: i - 2,
+                            required: true
+                        };
+                        if (name.startsWith('preguntaTexto')) {
+                            temp.tipo = 'Texto';
+                        }
+                        if (name.startsWith('preguntaNumber')) {
+                            temp.tipo = 'Numero';
+                        }
+                        if (name.startsWith('preguntaOpciones')) {
+                            temp.valor = aux[0];
+                            temp.opciones = aux.slice(1);
+                            temp.tipo = 'Opciones';
+                        }
+                        preguntas.push(temp);
                     }
-                    formulario = {
+
+                    var formulario = {
                         usuario: req.state["session-id"].usuario,
                         titulo: req.payload.titulo,
-                        descripcion: descripcion,
-
+                        descripcion: req.payload.descripcion,
+                        preguntas,
+                        public: true // De momento todas son publicas
                     };
-
-                    // await no continuar hasta acabar esto
-                    // Da valor a respuesta
 
                     await repositorio.conexion()
                         .then((db) => repositorio.insertarFormulario(db, formulario))
@@ -155,100 +169,107 @@ module.exports = {
 
                     return respuesta;
                 }
-            },*/
+            }
+            ,
             {
                 method: 'GET',
-                path: '/formularios/publicos',
-                handler: async (req, h) => {
+                path:
+                    '/formularios/publicos',
+                handler:
+                    async (req, h) => {
 
-                    var pg = parseInt(req.query.pg);
-                    if ( req.query.pg == null){
-                        pg = 1;
-                    }
+                        var pg = parseInt(req.query.pg);
+                        if (req.query.pg == null) {
+                            pg = 1;
+                        }
 
-                    var criterio = {};
-                    var listaFormularios = [];
-                    
-                    criterio = { "public" : true};
+                        var criterio = {};
+                        var listaFormularios = [];
 
-                    await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
-                        .then((formularios, total) => {
-                            listaFormularios = formularios;
-                            pgUltima = listaFormularios.total/6;
+                        criterio = {"public": true};
 
-                            // La págian 2.5 no existe
-                            // Si excede sumar 1 y quitar los decimales
-                            if (pgUltima % 2 > 0 ){
-                                pgUltima = Math.trunc(pgUltima);
-                                pgUltima = pgUltima+1;
+                        await repositorio.conexion()
+                            .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
+                            .then((formularios, total) => {
+                                listaFormularios = formularios;
+                                pgUltima = listaFormularios.total / 6;
+
+                                // La págian 2.5 no existe
+                                // Si excede sumar 1 y quitar los decimales
+                                if (pgUltima % 2 > 0) {
+                                    pgUltima = Math.trunc(pgUltima);
+                                    pgUltima = pgUltima + 1;
+                                }
+                            });
+
+                        var paginas = [];
+                        for (i = 1; i <= pgUltima; i++) {
+                            if (i == pg) {
+                                paginas.push({valor: i, clase: "uk-active"});
+                            } else {
+                                paginas.push({valor: i});
+                            }
+                        }
+
+                        // Recorte
+                        listaFormularios.forEach((e) => {
+                            if (e.titulo.length > 25) {
+                                e.titulo =
+                                    e.titulo.substring(0, 25) + "...";
+                            }
+                            if (e.descripcion.length > 80) {
+                                e.descripcion =
+                                    e.descripcion.substring(0, 80) + "...";
                             }
                         });
 
-                    var paginas = [];
-                    for( i=1; i <= pgUltima; i++){
-                        if ( i == pg ){
-                            paginas.push({valor: i , clase : "uk-active" });
-                        } else {
-                            paginas.push({valor: i});
-                        }
+                        return h.view('formularios/publicos',
+                            {
+                                usuarioAutenticado: req.state["session-id"].usuario,
+                                formularios: listaFormularios,
+                                paginas: paginas
+                            }, {layout: 'base'});
                     }
-
-                    // Recorte
-                    listaFormularios.forEach( (e) => {
-                        if (e.titulo.length > 25){
-                            e.titulo =
-                                e.titulo.substring(0, 25) + "...";
-                        }
-                        if (e.descripcion.length > 80) {
-                            e.descripcion =
-                                e.descripcion.substring(0, 80) + "...";
-                        }
-                    });
-
-                    return h.view('formularios/publicos',
-                        {
-                            usuarioAutenticado: req.state["session-id"].usuario,
-                            formularios: listaFormularios,
-                            paginas : paginas
-                        }, { layout: 'base'} );
-                }
-            },
+            }
+            ,
             {
                 method: 'GET',
-                path: '/formularios/propios',
-                options: {
-                    auth: 'auth-registrado'
-                },
+                path:
+                    '/formularios/propios',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    }
+                ,
                 handler: async (req, h) => {
 
                     var pg = parseInt(req.query.pg);
-                    if ( req.query.pg == null){
+                    if (req.query.pg == null) {
                         pg = 1;
                     }
 
-                    var criterio = { "usuario" : req.auth.credentials };
+                    var criterio = {"usuario": req.auth.credentials};
                     var listaFormularios = [];
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 5))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
-                            pgUltima = listaFormularios.total/4;
+                            pgUltima = listaFormularios.total / 4;
 
                             // La págian 2.5 no existe
                             // Si excede sumar 1 y quitar los decimales
-                            if (pgUltima % 2 > 0 ){
+                            if (pgUltima % 2 > 0) {
                                 pgUltima = Math.trunc(pgUltima);
-                                pgUltima = pgUltima+1;
+                                pgUltima = pgUltima + 1;
                             }
 
                         });
 
                     var paginas = [];
-                    for( i=1; i <= pgUltima; i++){
-                        if ( i == pg ){
-                            paginas.push({valor: i , clase : "uk-active" });
+                    for (i = 1; i <= pgUltima; i++) {
+                        if (i == pg) {
+                            paginas.push({valor: i, clase: "uk-active"});
                         } else {
                             paginas.push({valor: i});
                         }
@@ -257,38 +278,47 @@ module.exports = {
                         {
                             formularios: listaFormularios,
                             usuarioAutenticado: req.state["session-id"].usuario,
-                            paginas : paginas
+                            paginas: paginas
                         },
-                        { layout: 'base'} );
+                        {layout: 'base'});
                 }
-            },
+            }
+            ,
             {
                 method: 'GET',
-                path: '/formularios/{id}/eliminar',
-                handler: async (req, h) => {
+                path:
+                    '/formularios/{id}/eliminar',
+                handler:
+                    async (req, h) => {
 
-                    var criterio = { "_id" :
-                            require("mongodb").ObjectID(req.params.id) };
+                        var criterio = {
+                            "_id":
+                                require("mongodb").ObjectID(req.params.id)
+                        };
 
-                    await repositorio.conexion()
-                        .then((db) => repositorio.eliminarFormularios(db, criterio))
-                        .then((resultado) => {
-                            console.log("Eliminado")
-                        });
+                        await repositorio.conexion()
+                            .then((db) => repositorio.eliminarFormularios(db, criterio))
+                            .then((resultado) => {
+                                console.log("Eliminado")
+                            });
 
-                    return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
-                }
-            },
+                        return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
+                    }
+            }
+            ,
             {
                 method: 'GET',
-                path: '/formularios/{id}',
-                options: {
-                    auth: 'auth-registrado'
-                },
+                path:
+                    '/formularios/{id}',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    }
+                ,
                 handler: async (req, h) => {
 
 
-                    var criterio = { "_id" : require("mongodb").ObjectID(req.params.id) };
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var listaFormularios = [];
 
                     await repositorio.conexion()
@@ -302,18 +332,23 @@ module.exports = {
                             formulario: listaFormularios[0],
                             usuarioAutenticado: req.state["session-id"].usuario,
                         },
-                        { layout: 'base'} );
+                        {layout: 'base'});
                 }
-            },
+            }
+            ,
             {
                 method: 'POST',
-                path: '/formularios/{id}',
-                options: {
-                    auth: 'auth-registrado',
-                    payload: {
-                        output: 'stream'
+                path:
+                    '/formularios/{id}',
+                options:
+                    {
+                        auth: 'auth-registrado',
+                        payload:
+                            {
+                                output: 'stream'
+                            }
                     }
-                },
+                ,
                 handler: async (req, h) => {
 
                     descripcion = [];
@@ -345,26 +380,32 @@ module.exports = {
 
                     return respuesta;
                 }
-            },
+            }
+            ,
             {
                 method: 'GET',
-                path: '/{param*}',
-                handler: {
-                    directory: {
-                        path: './public'
+                path:
+                    '/{param*}',
+                handler:
+                    {
+                        directory: {
+                            path: './public'
+                        }
                     }
-                }
-            },
+            }
+            ,
             {
                 method: 'GET',
-                path: '/',
-                handler: async (req, h) => {
-                    return h.view('index',
-                        {
-                            usuarioAutenticado: req.state["session-id"].usuario,
-                        },
-                        {layout: 'base'});
-                }
+                path:
+                    '/',
+                handler:
+                    async (req, h) => {
+                        return h.view('index',
+                            {
+                                usuarioAutenticado: req.state["session-id"].usuario,
+                            },
+                            {layout: 'base'});
+                    }
             }
         ])
     }
