@@ -401,6 +401,96 @@ module.exports = {
             {
                 method: 'GET',
                 path:
+                    '/formularios/{id}/modificar',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
+                handler: async (req, h) => {
+
+
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
+
+                    return h.view('formularios/modificar',
+                        {
+                            id: require("mongodb").ObjectID(req.params.id),
+                            formulario: formulario,
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                        },
+                        {layout: 'base'});
+                }
+            }
+            ,
+            {
+                method: 'POST',
+                path: '/formularios/{id}/modificar',
+                options: {
+                    auth: 'auth-registrado'
+                },
+                handler: async (req, h) => {
+                    var preguntas = [];
+
+                    // Buscamos preguntas según su tipo
+                    for (let i = 2; i < Object.keys(req.payload).length; i++) {
+                        var name = Object.keys(req.payload)[i];
+                        var aux = req.payload[name];
+                        var temp = {
+                            valor: aux,
+                            pos: i - 2,
+                            required: true
+                        };
+                        if (name.startsWith('preguntaTexto')) {
+                            temp.tipo = 'Texto';
+                        }
+                        if (name.startsWith('preguntaNumber')) {
+                            temp.tipo = 'Numero';
+                        }
+                        if (name.startsWith('preguntaOpciones')) {
+                            temp.valor = aux[0];
+                            temp.opciones = aux.slice(1);
+                            temp.tipo = 'Opciones';
+                        }
+                        preguntas.push(temp);
+                    }
+
+                    console.log(req.payload.titulo);
+                    console.log(req.payload.descripcion);
+
+                    var formulario = {
+                        usuario: req.state["session-id"].usuario,
+                        titulo: req.payload.titulo,
+                        descripcion: req.payload.descripcion,
+                        preguntas,
+                        public: true // De momento todas son publicas
+                    };
+
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.modificarFormulario(db, criterio, formulario))
+                        .then((id) => {
+                            respuesta = "";
+                            if (id == null) {
+                                respuesta = h.redirect('/formularios/propios?mensaje="Error al modificar el formulario"')
+                            } else {
+                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario modificar"');
+                                idAnuncio = id;
+                            }
+                        });
+
+                    return respuesta;
+                }
+            },
+            {
+                method: 'GET',
+                path:
                     '/{param*}',
                 handler:
                     {
