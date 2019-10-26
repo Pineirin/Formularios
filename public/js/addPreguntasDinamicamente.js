@@ -2,6 +2,7 @@ contenedor = document.getElementById('preguntas-container');
 addPreguntas = document.getElementById('add-pregunta');
 nuevasPreguntas = document.getElementById('nuevas-preguntas');
 num = 0;
+generalCounter = 0;
 tempRespuestas = [];
 
 function create() {
@@ -21,6 +22,10 @@ function create() {
     addPreguntas.style.display = 'none';
 }
 
+function increaseGeneral() {
+    generalCounter++;
+}
+
 function textOption() {
     obtenerRespuestas();
     nuevasPreguntas.innerHTML +=
@@ -29,9 +34,10 @@ function textOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo texto:' +
         '</label>' +
-        '<input class="uk-input" type="text" name="preguntaTexto[]" placeholder="Inserte la pregunta">' +
+        '<input class="uk-input" type="text" name="preguntaTexto' + generalCounter + '" placeholder="Inserte la pregunta">' +
         '</div>' +
         '</div>';
+    increaseGeneral();
     addRespuestas();
     undo();
 }
@@ -44,14 +50,15 @@ function choiceOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo opciones:' +
         '</label>' +
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones[]" placeholder="Inserte la pregunta">' +
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones[]" placeholder="Inserte una opción">' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte la pregunta">' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte una opción">' +
         '<button class="uk-button uk-button-danger uk-width-1-2 uk-margin-small-bottom" ' +
         'onclick="checkId(this)">Añadir otra opción' +
         '</button>' +
         '</div>' +
         '</div>';
     num = num + 1;
+    increaseGeneral();
     addRespuestas();
     undo();
 }
@@ -60,9 +67,10 @@ function checkId(elem) {
     obtenerRespuestas();
     contenedorOpciones = document.getElementById(elem.parentNode.getAttribute('id'));
     boton = contenedorOpciones.getElementsByTagName("button")[0];
+    claseAnterior = contenedorOpciones.getElementsByTagName("input")[0].name;
     contenedorOpciones.removeChild(boton);
     contenedorOpciones.innerHTML +=
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones[]" placeholder="Inserte una opción">' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="' + claseAnterior + '" placeholder="Inserte una opción">' +
         '<button class="uk-button uk-button-danger uk-width-1-2 uk-margin-small-bottom" ' +
         'onclick="checkId(this)">Añadir otra opción' +
         '</button>';
@@ -78,9 +86,10 @@ function numberOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo número:' +
         '</label>' +
-        '<input class="uk-input" type="text" name="preguntaNumber[]" placeholder="Inserte la pregunta">' +
+        '<input class="uk-input" type="text" name="preguntaNumber' + generalCounter + '" placeholder="Inserte la pregunta">' +
         '</div>' +
         '</div>';
+    increaseGeneral();
     addRespuestas();
     undo();
 }
