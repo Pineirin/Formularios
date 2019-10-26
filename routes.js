@@ -348,57 +348,53 @@ module.exports = {
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
                     var res = [];
+                    var repetido = false;
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
                         .then((formularios) => {
                             formulario = formularios[0];
                         });
-
-                    if (formulario.respuestas == undefined) {
-                        formulario.respuestas = [];
-                    }
-
-                    for (let i = 0; i < Object.keys(req.payload).length; i++) {
-                        /*var name = Object.keys(req.payload)[i];
-                        var aux = req.payload[name];
-                        var temp = {
-                            valor: aux,
-                            pos: i - 2,
-                            required: true
-                        };
-                        if (name.startsWith('preguntaTexto')) {
-                            temp.tipo = 'Texto';
-                        }
-                        if (name.startsWith('preguntaNumber')) {
-                            temp.tipo = 'Numero';
-                        }
-                        if (name.startsWith('preguntaOpciones')) {
-                            temp.valor = aux[0];
-                            temp.opciones = aux.slice(1);
-                            temp.tipo = 'Opciones';
-                        }
-                        preguntas.push(temp);*/
-                        console.log()
-                    }
-
-                    formulario.respuestas.push({
-                        usuario: req.state["session-id"].usuario,
-                        res
-                    });
-
-                    /*await repositorio.conexion()
-                        .then((db) => repositorio.modificarFormulario(db, criterio, formulario))
-                        .then((id) => {
-                            respuesta = "";
-                            if (id == null) {
-                                respuesta = "Error al modificar"
-                            } else {
-                                respuesta = "Modificado ";
+                    if(formulario) {
+                        if (formulario.respuestas !== undefined) {
+                            for (let i = 0; i< formulario.respuestas.length; i++) {
+                                if (!formulario.respuestas[i].usuario.localeCompare(formulario.usuario)) {
+                                    repetido = true;
+                                }
                             }
+                            if (repetido) {
+                                return h.redirect('/formularios/publicos?mensaje="Respondido previamente"');
+                            }
+                        } else {
+                            formulario.respuestas = [];
+                        }
+
+                        for (let i = 0; i < Object.keys(req.payload).length; i++) {
+                            var name = Object.keys(req.payload)[i];
+                            res[name] = req.payload[name]
+                        }
+
+                        formulario.respuestas.push({
+                            usuario: req.state["session-id"].usuario,
+                            res
                         });
 
-                    return respuesta;*/
+                        await repositorio.conexion()
+                            .then((db) => repositorio.modificarFormulario(db, criterio, formulario))
+                            .then((id) => {
+                                respuesta = "";
+                                if (id == null) {
+                                    respuesta = h.redirect('/formularios/' + req.params.id
+                                        + '/responder?mensaje="Error al responder el formulario"');
+                                } else {
+                                    respuesta = h.redirect('/formularios/publicos?mensaje="Formulario respondido"');
+                                }
+                            });
+
+                        return respuesta;
+                    } else {
+                        return h.redirect('/formularios/publicos?mensaje="Formulario no existe"');
+                    }
                 }
             }
             ,
