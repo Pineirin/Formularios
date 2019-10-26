@@ -15,6 +15,34 @@
                         <input class="uk-input" type="text" name="descripcion" placeholder="Descripción del formulario">
                     </div>
                 </div>
+                {{#each formulario.preguntas}}
+                    {{#if (equals tipo "Texto")}}
+                        <div class="uk-grid uk-margin">
+                            <div class="uk-width-1-1">
+                                <label class="uk-form-label">{{ valor }}:</label>
+                                <input class="uk-input" type="text" name="{{ pos }}" placeholder="Introduzca una cadena de texto">
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (equals tipo "Numero")}}
+                        <div class="uk-grid uk-margin">
+                            <div class="uk-width-1-1">
+                                <label class="uk-form-label">{{ valor }}:</label>
+                                <input class="uk-input" type="number" name="{{ pos }}" placeholder="Introduzca un valor numérico">
+                            </div>
+                        </div>
+                    {{/if}}
+                    {{#if (equals tipo "Opciones")}}
+                        <div class="uk-grid uk-margin">
+                            <div class="uk-width-1-1">
+                                <label class="uk-form-label">{{ valor }}:</label>
+                                {{#each opciones}}
+                                <br><input class="uk-radio" type="radio" name = "{{ pos }}" value = "{{ this }}">{{ this }}
+                                {{/each}}
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
                 <div id="nuevas-preguntas"></div>
                 <div id="preguntas-container"></div>
                 <div id="add-pregunta" class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom"

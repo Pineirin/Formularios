@@ -381,6 +381,36 @@ module.exports = {
             {
                 method: 'GET',
                 path:
+                    '/formularios/{id}/modificar',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
+                handler: async (req, h) => {
+
+
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
+
+                    return h.view('formularios/modificar',
+                        {
+                            id: require("mongodb").ObjectID(req.params.id),
+                            formulario: formulario,
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                        },
+                        {layout: 'base'});
+                }
+            }
+            ,
+            {
+                method: 'GET',
+                path:
                     '/{param*}',
                 handler:
                     {
