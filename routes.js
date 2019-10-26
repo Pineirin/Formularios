@@ -436,11 +436,35 @@ module.exports = {
                 },
                 handler: async (req, h) => {
                     var preguntas = [];
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
 
                     // Buscamos preguntas según su tipo
-                    for (let i = 2; i < Object.keys(req.payload).length; i++) {
+                    for (let i = 0; i < Object.keys(req.payload).length; i++) {
+
                         var name = Object.keys(req.payload)[i];
                         var aux = req.payload[name];
+
+                        if (name == "titulo"){
+                            formulario.titulo = aux;
+                        }
+
+                        if (name == "descripcion"){
+                            formulario.descripcion = aux;
+                        }
+
+                        for (let i = 0; i < formulario.preguntas.length; i++) {
+                            if (name == formulario.preguntas[i].pos){
+                                formulario.preguntas[i].valor = aux
+                            }
+                        }
+
                         var temp = {
                             valor: aux,
                             pos: i - 2,
@@ -457,19 +481,8 @@ module.exports = {
                             temp.opciones = aux.slice(1);
                             temp.tipo = 'Opciones';
                         }
-                        preguntas.push(temp);
+                        formulario.preguntas.push(temp);
                     }
-
-                    console.log(req.payload.titulo);
-                    console.log(req.payload.descripcion);
-
-                    var formulario = {
-                        usuario: req.state["session-id"].usuario,
-                        titulo: req.payload.titulo,
-                        descripcion: req.payload.descripcion,
-                        preguntas,
-                        public: true // De momento todas son publicas
-                    };
 
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
 
