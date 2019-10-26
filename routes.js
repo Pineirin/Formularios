@@ -169,8 +169,7 @@ module.exports = {
 
                     return respuesta;
                 }
-            }
-            ,
+            },
             {
                 method: 'GET',
                 path:
@@ -348,6 +347,7 @@ module.exports = {
 
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
+                    var res = [];
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
@@ -355,26 +355,50 @@ module.exports = {
                             formulario = formularios[0];
                         });
 
-                    formulario.preguntas[0].usuarios.push(req.state["session-id"]._id);
-
-                    for (i = 1; i<formulario.preguntas.length; i++){
-                        console.log(req.payload);
-                        formulario.preguntas[i].respuestas.push(req.payload.name)
+                    if (formulario.respuestas == undefined) {
+                        formulario.respuestas = [];
                     }
 
-                    await repositorio.conexion()
-                        .then((db) => repositorio.modificarFormulario(db,criterio,formulario))
+                    for (let i = 0; i < Object.keys(req.payload).length; i++) {
+                        /*var name = Object.keys(req.payload)[i];
+                        var aux = req.payload[name];
+                        var temp = {
+                            valor: aux,
+                            pos: i - 2,
+                            required: true
+                        };
+                        if (name.startsWith('preguntaTexto')) {
+                            temp.tipo = 'Texto';
+                        }
+                        if (name.startsWith('preguntaNumber')) {
+                            temp.tipo = 'Numero';
+                        }
+                        if (name.startsWith('preguntaOpciones')) {
+                            temp.valor = aux[0];
+                            temp.opciones = aux.slice(1);
+                            temp.tipo = 'Opciones';
+                        }
+                        preguntas.push(temp);*/
+                        console.log()
+                    }
+
+                    formulario.respuestas.push({
+                        usuario: req.state["session-id"].usuario,
+                        res
+                    });
+
+                    /*await repositorio.conexion()
+                        .then((db) => repositorio.modificarFormulario(db, criterio, formulario))
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta =  "Error al modificar"
+                                respuesta = "Error al modificar"
                             } else {
                                 respuesta = "Modificado ";
                             }
                         });
 
-                    return respuesta;
-
+                    return respuesta;*/
                 }
             }
             ,
