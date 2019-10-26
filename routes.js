@@ -315,35 +315,17 @@ module.exports = {
                     }
                 },
                 handler: async (req, h) => {
+                    var criterio = { "_id" : require("mongodb").ObjectID(req.params.id) };
 
-                    descripcion = [];
-                    arrayPreguntas = req.payload.preguntas.split("\n");
-                    for (i = 0; i < arrayPreguntas; i++) {
-                        descripcion.push(arrayPreguntas[i]);
-                    }
-                    formulario = {
+                    anuncio = {
                         usuario: req.state["session-id"].usuario,
                         titulo: req.payload.titulo,
-                        descripcion: descripcion,
+                        descripcion: req.payload.descripcion,
+                        categoria: req.payload.categoria,
+                        precio: Number.parseFloat(req.payload.precio),
+                    }
 
-                    };
 
-                    // await no continuar hasta acabar esto
-                    // Da valor a respuesta
-
-                    await repositorio.conexion()
-                        .then((db) => repositorio.insertarFormulario(db, formulario))
-                        .then((id) => {
-                            respuesta = "";
-                            if (id == null) {
-                                respuesta = h.redirect('/?mensaje="Error al crear el formulario"')
-                            } else {
-                                respuesta = h.redirect('/?mensaje="Formulario creado"');
-                                idAnuncio = id;
-                            }
-                        });
-
-                    return respuesta;
                 }
             },
             {
