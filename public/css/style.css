@@ -1,5 +1,10 @@
+html {
+    background: lightgrey;
+}
+
 body {
     background: lightgrey;
+    height: 100%;
 }
 
 header {
@@ -22,4 +27,10 @@ footer {
     background-color: white;
     color: black;
     text-align: center;
+    box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dashboard:hover {
+    border: 3px solid #3a7999;
 }
