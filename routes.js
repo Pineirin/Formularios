@@ -485,7 +485,6 @@ module.exports = {
                         await repositorio.conexion()
                             .then((db) => repositorio.eliminarFormularios(db, criterio))
                             .then((resultado) => {
-                                console.log("Eliminado")
                             });
 
                         return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
