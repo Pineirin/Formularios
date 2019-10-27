@@ -379,7 +379,12 @@ module.exports = {
 
                         for (let i = 0; i < Object.keys(req.payload).length; i++) {
                             var name = Object.keys(req.payload)[i];
-                            res[name] = req.payload[name]
+                            if(isNaN(name)) {
+                                new_name =  name.substr(0,name.indexOf("_"));
+                                res[new_name] = req.payload[name];
+                            } else {
+                                res[name] = req.payload[name]
+                            }
                         }
 
                         formulario.respuestas.push({
