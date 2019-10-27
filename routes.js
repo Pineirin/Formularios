@@ -251,7 +251,7 @@ module.exports = {
                     var listaFormularios = [];
 
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 5))
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
                             pgUltima = listaFormularios.total / 4;
