@@ -37,7 +37,7 @@
                             <div class="uk-width-1-1">
                                 <label class="uk-form-label">Pregunta de tipo opciones:</label>
                                 {{#each opciones}}
-                                    <input class="uk-input" type="text" name="{{ pos }}" value="{{this}}" placeholder="Inserte la pregunta">
+                                    <input class="uk-input" type="text" name="{{ ../pos }}_{{ this }}" value="{{this}}" placeholder="Inserte la pregunta">
                                 {{/each}}
                             </div>
                         </div>

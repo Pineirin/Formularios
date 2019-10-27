@@ -4,8 +4,8 @@
             <h1 class="uk-heading-divider">{{titulo}}</h1>
             <ul class="uk-list uk-list-divider">
                 {{#each preguntas}}
-                    <li>{{valor}}:</li>
-                    <ul class="uk-list uk-list-divider">
+                    <li>{{valor}}: <button onclick="{{showElement valor}}">Mostrar</button></li>
+                    <ul id = "{{valor}}" class="uk-list uk-list-divider">
                         {{#each respuestas.res}}
                             <li>{{this}} ({{../respuestas.usuario}})</li>
                         {{/each}}

@@ -253,6 +253,7 @@ module.exports = {
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
                         .then((formularios, total) => {
+                            console.log(formularios.total);
                             listaFormularios = formularios;
                             pgUltima = listaFormularios.total / 4;
 
