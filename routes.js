@@ -505,8 +505,7 @@ module.exports = {
                         },
                         {layout: 'base'});
                 }
-            }
-            ,
+            },
             {
                 method: 'POST',
                 path:
@@ -574,8 +573,7 @@ module.exports = {
                         return h.redirect('/formularios/publicos?mensaje="Formulario no existe"');
                     }
                 }
-            }
-            ,
+            },
             {
                 method: 'GET',
                 path:
@@ -743,8 +741,141 @@ module.exports = {
                         },
                         {layout: 'base'});
                 }
-            }
-            ,
+            },
+            {
+                method: 'GET',
+                path:
+                    '/formularios/favoritos',
+                handler:
+                    async (req, h) => {
+
+
+                        var criterio = {usuario : req.state["session-id"].usuario};
+                        var formulariosFavoritos = [];
+
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.obtenerUsuarios(db, criterio))
+                            .then((usuarios) => {
+                                respuesta = "";
+                                if (usuarios == null || usuarios.length == 0) {
+                                } else {
+                                    if (usuarios[0].favoritos != undefined){
+                                        formulariosFavoritos = usuarios[0].favoritos;
+                                    }
+
+                                }
+                            });
+
+                        var listaFormularios = [];
+                        var pg = parseInt(req.query.pg);
+                        if (req.query.pg == null) {
+                            pg = 1;
+                        }
+
+                        for (let i =0; i<formulariosFavoritos.length; i++){
+                            criterio = {"_id": require("mongodb").ObjectID(formulariosFavoritos[i])};
+                            await repositorio.conexion()
+                                .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
+                                .then((formularios, total) => {
+                                    for (let j=0; j<formularios.length; j++){
+                                        listaFormularios.push(formularios[j]);
+                                    }
+
+                                });
+
+                        }
+
+                        pgUltimaDecimal = listaFormularios.total / 6;
+                        pgUltima = Math.trunc(pgUltimaDecimal);
+
+                        // La págian 2.5 no existe
+                        // Si excede sumar 1 y quitar los decimales
+                        if (pgUltimaDecimal > pgUltima) {
+                            pgUltima = pgUltima + 1;
+                        }
+
+                        var paginas = [];
+                        for (i = 1; i <= pgUltima; i++) {
+                            if (i == pg) {
+                                paginas.push({valor: i, clase: "uk-active"});
+                            } else {
+                                paginas.push({valor: i});
+                            }
+                        }
+
+                        // Recorte
+                        listaFormularios.forEach((e) => {
+                            if (e.titulo.length > 40) {
+                                e.titulo =
+                                    e.titulo.substring(0, 40) + "...";
+                            }
+                            if (e.descripcion.length > 60) {
+                                e.descripcion =
+                                    e.descripcion.substring(0, 60) + "...";
+                            }
+                        });
+
+                        if (req.state["session-id"]) {
+                            return h.view('formularios/favoritos',
+                                {
+                                    usuarioAutenticado: req.state["session-id"].usuario,
+                                    formularios: listaFormularios,
+                                    paginas: paginas,
+                                }, {layout: 'base'});
+                        } else {
+                            return h.view('formularios/favoritos',
+                                {
+                                    formularios: listaFormularios,
+                                    paginas: paginas,
+                                }, {layout: 'base'});
+                        }
+                    }
+            },
+            {
+                method: 'POST',
+                path:
+                    '/formularios/{id}/favoritos',
+                handler:
+                    async (req, h) => {
+
+                        var criterio = {usuario : req.state["session-id"].usuario};
+                        var usuario;
+
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.obtenerUsuarios(db, criterio))
+                            .then((usuarios) => {
+                                respuesta = "";
+                                if (usuarios == null || usuarios.length == 0) {
+                                } else {
+                                    usuario = usuarios[0];
+                                }
+                            });
+
+                        if (usuario.favoritos == undefined){
+                            usuario.favoritos = [];
+                            usuario.favoritos.push(require("mongodb").ObjectID(req.params.id))
+                        } else {
+                            usuario.favoritos.push(require("mongodb").ObjectID(req.params.id))
+                        }
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.modificarUsuario(db, criterio, usuario))
+                            .then((id) => {
+                                respuesta = "";
+                                if (id == null) {
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no añadido"');
+                                } else {
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito añadido"');
+                                }
+                            });
+
+                        return respuesta
+
+
+                    }
+            },
             {
                 method: 'GET',
                 path:
