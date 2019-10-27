@@ -137,4 +137,22 @@ module.exports = {
         return promise;
     },
 
+    modificarUsuario : async (db, criterio, usuario) => {
+
+        promise = new Promise((resolve, reject) => {
+            var collection = db.collection('usuarios');
+            collection.update(criterio, {$set: usuario}, (err, result) => {
+                if (err) {
+                    resolve(null);
+                } else {
+                    // modificado
+                    resolve(result);
+                }
+                db.close();
+            });
+        });
+
+        return promise;
+    },
+
 };
