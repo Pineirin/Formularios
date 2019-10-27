@@ -438,6 +438,7 @@ module.exports = {
                     var preguntas = [];
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
+                    var counter = 0;
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
@@ -462,13 +463,14 @@ module.exports = {
                         for (let i = 0; i < formulario.preguntas.length; i++) {
                             if (name == formulario.preguntas[i].pos){
                                 formulario.preguntas[i].valor = aux
+                                counter += 1;
                             }
                         }
 
 
                         var temp = {
                             valor: aux,
-                            pos: i - 2,
+                            pos: i + counter,
                             required: true
                         };
                         if (name.startsWith('preguntaTexto')) {
