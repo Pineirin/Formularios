@@ -465,6 +465,7 @@ module.exports = {
                             }
                         }
 
+
                         var temp = {
                             valor: aux,
                             pos: i - 2,
@@ -501,6 +502,47 @@ module.exports = {
                     return respuesta;
                 }
             },
+            {
+                method: 'GET',
+                path:
+                    '/formularios/{id}/respuestas',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
+                handler: async (req, h) => {
+
+
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
+
+                    preguntas = [];
+                    for (let i = 0; i < formulario.preguntas.length; i++) {
+                        respuestas = formulario.respuestas[i];
+                        pregunta = {
+                            valor: formulario.preguntas[i].valor,
+                            respuestas
+                        };
+                        preguntas.push(pregunta)
+                    }
+
+                    return h.view('formularios/respuestas',
+                        {
+                            titulo: formulario.titulo,
+                            preguntas: preguntas,
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                        },
+                        {layout: 'base'});
+                }
+            }
+            ,
             {
                 method: 'GET',
                 path:
