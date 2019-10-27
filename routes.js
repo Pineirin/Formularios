@@ -212,9 +212,9 @@ module.exports = {
 
                         // Recorte
                         listaFormularios.forEach((e) => {
-                            if (e.titulo.length > 25) {
+                            if (e.titulo.length > 50) {
                                 e.titulo =
-                                    e.titulo.substring(0, 25) + "...";
+                                    e.titulo.substring(0, 50) + "...";
                             }
                             if (e.descripcion.length > 80) {
                                 e.descripcion =
