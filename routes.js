@@ -1,3 +1,5 @@
+const { email } = require('@hapi/address');
+
 module.exports = {
     name: 'MiRouter',
     register: async (server, options) => {
@@ -81,22 +83,23 @@ module.exports = {
 
                     usuario = {
                         usuario: req.payload.usuario,
-                        password: password,
+                        password,
                     };
 
-                    // await no continuar hasta acabar esto
-                    // Da valor a respuesta
-                    await repositorio.conexion()
-                        .then((db) => repositorio.insertarUsuario(db, usuario))
-                        .then((id) => {
-                            respuesta = "";
-                            if (id == null) {
-                                respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
-                            } else {
-                                respuesta = h.redirect('/login?mensaje="Usuario Creado"')
-                                idAnuncio = id;
-                            }
-                        });
+                    if (email.isValid(req.payload.usuario)) {
+                        await repositorio.conexion()
+                            .then((db) => repositorio.insertarUsuario(db, usuario))
+                            .then((id) => {
+                                respuesta = "";
+                                if (id == null) {
+                                    respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
+                                } else {
+                                    respuesta = h.redirect('/login?mensaje="Usuario Creado"');
+                                }
+                            });
+                    } else {
+                        respuesta =  h.redirect('/registro?mensaje="Email invalido"');
+                    }
 
                     return respuesta;
                 }
