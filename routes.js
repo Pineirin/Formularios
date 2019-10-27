@@ -471,6 +471,10 @@ module.exports = {
                 method: 'GET',
                 path:
                     '/formularios/{id}/eliminar',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
                 handler:
                     async (req, h) => {
 
@@ -757,6 +761,10 @@ module.exports = {
                 method: 'GET',
                 path:
                     '/formularios/favoritos',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
                 handler:
                     async (req, h) => {
 
@@ -847,6 +855,10 @@ module.exports = {
                 method: 'POST',
                 path:
                     '/formularios/{id}/favoritos',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
                 handler:
                     async (req, h) => {
 
