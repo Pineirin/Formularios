@@ -548,6 +548,11 @@ module.exports = {
                         });
 
                     preguntas = [];
+
+                    if(formulario.respuestas == undefined) {
+                        return h.redirect('/formularios/propios?mensaje="No tiene respuestas"');
+                    }
+
                     for (let i = 0; i < formulario.preguntas.length; i++) {
                         respuestas = formulario.respuestas[i];
                         pregunta = {
