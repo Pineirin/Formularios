@@ -545,7 +545,6 @@ module.exports = {
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
 
-
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
                         .then((formularios) => {
@@ -559,7 +558,13 @@ module.exports = {
                     }
 
                     for (let i = 0; i < formulario.preguntas.length; i++) {
-                        respuestas = formulario.respuestas[i];
+                        var respuestas = [];
+                        for (let j = 0; j < formulario.respuestas.length; j++){
+                            respuestas.push({
+                                usuario: formulario.respuestas[j].usuario,
+                                respuesta: formulario.respuestas[j].res[i]
+                            })
+                        }
                         pregunta = {
                             valor: formulario.preguntas[i].valor,
                             respuestas

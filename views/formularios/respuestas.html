@@ -6,8 +6,8 @@
                 {{#each preguntas}}
                     <li>{{valor}}: <button class="uk-button uk-button-default"  onclick="myFunction('{{valor}}')">Mostrar/Ocultar</button></li>
                     <ul id = "{{valor}}" class="uk-list uk-list-divider">
-                        {{#each respuestas.res}}
-                            <li>{{this}} ({{../respuestas.usuario}})</li>
+                        {{#each respuestas}}
+                            <li>{{respuesta}} ({{usuario}})</li>
                         {{/each}}
                     </ul>
                 {{/each}}
