@@ -230,13 +230,17 @@ module.exports = {
                                 {
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "",
+                                    titulo_busqueda: "",
                                 }, {layout: 'base'});
                         } else {
                             return h.view('formularios/publicos',
                                 {
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "",
+                                    titulo_busqueda: "",
                                 }, {layout: 'base'});
                         }
                     }
@@ -298,13 +302,17 @@ module.exports = {
                                 {
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "/" + req.params.usuario,
+                                    titulo_busqueda: "",
                                 }, {layout: 'base'});
                         } else {
                             return h.view('formularios/publicos',
                                 {
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "/" + req.params.usuario,
+                                    titulo_busqueda: "",
                                 }, {layout: 'base'});
                         }
                     }
@@ -366,13 +374,17 @@ module.exports = {
                                 {
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "/" + req.params.usuario,
+                                    titulo_busqueda: "/" + req.params.titulo,
                                 }, {layout: 'base'});
                         } else {
                             return h.view('formularios/publicos',
                                 {
                                     formularios: listaFormularios,
-                                    paginas: paginas
+                                    paginas: paginas,
+                                    usuario_busqueda: "/" + req.params.usuario,
+                                    titulo_busqueda: "/" + req.params.titulo,
                                 }, {layout: 'base'});
                         }
                     }

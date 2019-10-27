@@ -43,7 +43,7 @@
         {{#each paginas}}
 
         <li class="{{ clase }}">
-            <a href="/formularios/publicos?pg={{valor}}">{{valor}}</a>
+            <a href="/formularios/publicos{{../usuario_busqueda}}{{../titulo_busqueda}}?pg={{valor}}">{{valor}}</a>
         </li>
 
         {{/each}}
