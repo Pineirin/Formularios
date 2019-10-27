@@ -430,7 +430,7 @@ module.exports = {
                     return h.view('formularios/modificar',
                         {
                             id: require("mongodb").ObjectID(req.params.id),
-                            formulario: formulario,
+                            formulario,
                             usuarioAutenticado: req.state["session-id"].usuario,
                         },
                         {layout: 'base'});
@@ -444,10 +444,9 @@ module.exports = {
                     auth: 'auth-registrado'
                 },
                 handler: async (req, h) => {
-                    var preguntas = [];
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
-                    var counter = 0;
+                    var preguntas = [];
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
@@ -457,43 +456,58 @@ module.exports = {
 
                     // Buscamos preguntas según su tipo
                     for (let i = 0; i < Object.keys(req.payload).length; i++) {
-
                         var name = Object.keys(req.payload)[i];
                         var aux = req.payload[name];
 
-                        if (name == "titulo") {
-                            formulario.titulo = aux;
-                        }
-
-                        if (name == "descripcion") {
-                            formulario.descripcion = aux;
-                        }
-
-                        for (let i = 0; i < formulario.preguntas.length; i++) {
-                            if (name == formulario.preguntas[i].pos) {
-                                formulario.preguntas[i].valor = aux
-                                counter += 1;
-                            }
-                        }
-
-
                         var temp = {
                             valor: aux,
-                            pos: i + counter,
+                            pos: i-2,
                             required: true
                         };
-                        if (name.startsWith('preguntaTexto')) {
-                            temp.tipo = 'Texto';
+
+                        var nuevo = false;
+
+                        if (name == "titulo") {
+                            formulario.titulo = aux;
+                        } else {
+                            if (name == "descripcion") {
+                                formulario.descripcion = aux;
+                            } else {
+                                if (name.startsWith('preguntaTexto')) {
+                                        temp.tipo = 'Texto';
+                                        nuevo = true;
+                                } else {
+                                    if (name.startsWith('preguntaNumber')) {
+                                        temp.tipo = 'Numero';
+                                        nuevo = true;
+                                    } else {
+                                        if (name.startsWith('preguntaOpciones')) {
+                                            temp.valor = aux[0];
+                                            temp.opciones = aux.slice(1);
+                                            temp.tipo = 'Opciones';
+                                            nuevo = true;
+                                        } else {
+                                            for (let j = 0; j < formulario.preguntas.length; j++) {
+                                                if (name == formulario.preguntas[j].pos) {
+                                                    if (Array.isArray(aux)) {
+                                                        formulario.preguntas[j].valor = aux[0];
+                                                        let counter = 0;
+                                                        for (let k = 1; k < aux.length; k++) {
+                                                            formulario.preguntas[j].opciones[counter] = aux[k];
+                                                            counter++;
+                                                        }
+                                                    } else {
+                                                        formulario.preguntas[j].valor = aux;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if(nuevo)
+                                    formulario.preguntas.push(temp);
+                            }
                         }
-                        if (name.startsWith('preguntaNumber')) {
-                            temp.tipo = 'Numero';
-                        }
-                        if (name.startsWith('preguntaOpciones')) {
-                            temp.valor = aux[0];
-                            temp.opciones = aux.slice(1);
-                            temp.tipo = 'Opciones';
-                        }
-                        formulario.preguntas.push(temp);
                     }
 
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
@@ -503,7 +517,7 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta = h.redirect('/formularios/propios?mensaje="Error al modificar el formulario"')
+                                respuesta = h.redirect('/formularios/propios?mensaje="Error al modificar"')
                             } else {
                                 respuesta = h.redirect('/formularios/propios?mensaje="Formulario modificar"');
                                 idAnuncio = id;
