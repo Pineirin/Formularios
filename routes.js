@@ -392,9 +392,6 @@ module.exports = {
             {
                 method: 'POST',
                 path: '/formularios/publicos',
-                options: {
-                    auth: 'auth-registrado'
-                },
                 handler: async (req, h) => {
                     var titulo = req.payload.titulo;
                     var usuario = req.payload.usuario;
