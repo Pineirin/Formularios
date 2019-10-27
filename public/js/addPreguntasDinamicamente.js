@@ -34,7 +34,7 @@ function textOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo texto:' +
         '</label>' +
-        '<input class="uk-input" type="text" name="preguntaTexto' + generalCounter + '" placeholder="Inserte la pregunta">' +
+        '<input class="uk-input" type="text" name="preguntaTexto' + generalCounter + '" placeholder="Inserte la pregunta" required>' +
         '</div>' +
         '</div>';
     increaseGeneral();
@@ -50,8 +50,8 @@ function choiceOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo opciones:' +
         '</label>' +
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte la pregunta">' +
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte una opción">' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte la pregunta" required>' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="preguntaOpciones' + generalCounter + '[]" placeholder="Inserte una opción" required>' +
         '<button class="uk-button uk-button-danger uk-width-1-2 uk-margin-small-bottom" ' +
         'onclick="checkId(this)">Añadir otra opción' +
         '</button>' +
@@ -70,7 +70,7 @@ function checkId(elem) {
     claseAnterior = contenedorOpciones.getElementsByTagName("input")[0].name;
     contenedorOpciones.removeChild(boton);
     contenedorOpciones.innerHTML +=
-        '<input class="uk-input uk-margin-small-bottom" type="text" name="' + claseAnterior + '" placeholder="Inserte una opción">' +
+        '<input class="uk-input uk-margin-small-bottom" type="text" name="' + claseAnterior + '" placeholder="Inserte una opción" required>' +
         '<button class="uk-button uk-button-danger uk-width-1-2 uk-margin-small-bottom" ' +
         'onclick="checkId(this)">Añadir otra opción' +
         '</button>';
@@ -86,7 +86,7 @@ function numberOption() {
         '<label class="uk-form-label">' +
         'Pregunta de tipo número:' +
         '</label>' +
-        '<input class="uk-input" type="text" name="preguntaNumber' + generalCounter + '" placeholder="Inserte la pregunta">' +
+        '<input class="uk-input" type="text" name="preguntaNumber' + generalCounter + '" placeholder="Inserte la pregunta" required>' +
         '</div>' +
         '</div>';
     increaseGeneral();

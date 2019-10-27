@@ -240,7 +240,7 @@ module.exports = {
                                     formularios: listaFormularios,
                                     paginas: paginas,
                                     usuario_busqueda: "",
-                                    titulo_busqueda: "",
+                                    titulo_busqueda: ""
                                 }, {layout: 'base'});
                         }
                     }
