@@ -857,6 +857,11 @@ module.exports = {
                             usuario.favoritos = [];
                             usuario.favoritos.push(require("mongodb").ObjectID(req.params.id))
                         } else {
+                            for (let i=0; i<usuario.favoritos.length; i++){
+                                if (usuario.favoritos[i] == req.params.id){
+                                    return h.redirect('/formularios/favoritos?mensaje="Favorito ya estaba elegido"');
+                                }
+                            }
                             usuario.favoritos.push(require("mongodb").ObjectID(req.params.id))
                         }
 
