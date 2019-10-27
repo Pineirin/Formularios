@@ -222,12 +222,20 @@ module.exports = {
                             }
                         });
 
-                        return h.view('formularios/publicos',
-                            {
-                                usuarioAutenticado: req.state["session-id"].usuario,
-                                formularios: listaFormularios,
-                                paginas: paginas
-                            }, {layout: 'base'});
+                        if (req.state["session-id"]) {
+                            return h.view('formularios/publicos',
+                                {
+                                    usuarioAutenticado: req.state["session-id"].usuario,
+                                    formularios: listaFormularios,
+                                    paginas: paginas
+                                }, {layout: 'base'});
+                        } else {
+                            return h.view('formularios/publicos',
+                                {
+                                    formularios: listaFormularios,
+                                    paginas: paginas
+                                }, {layout: 'base'});
+                        }
                     }
             }
             ,
@@ -355,9 +363,9 @@ module.exports = {
                         .then((formularios) => {
                             formulario = formularios[0];
                         });
-                    if(formulario) {
+                    if (formulario) {
                         if (formulario.respuestas !== undefined) {
-                            for (let i = 0; i< formulario.respuestas.length; i++) {
+                            for (let i = 0; i < formulario.respuestas.length; i++) {
                                 if (!formulario.respuestas[i].usuario.localeCompare(formulario.usuario)) {
                                     repetido = true;
                                 }
@@ -452,16 +460,16 @@ module.exports = {
                         var name = Object.keys(req.payload)[i];
                         var aux = req.payload[name];
 
-                        if (name == "titulo"){
+                        if (name == "titulo") {
                             formulario.titulo = aux;
                         }
 
-                        if (name == "descripcion"){
+                        if (name == "descripcion") {
                             formulario.descripcion = aux;
                         }
 
                         for (let i = 0; i < formulario.preguntas.length; i++) {
-                            if (name == formulario.preguntas[i].pos){
+                            if (name == formulario.preguntas[i].pos) {
                                 formulario.preguntas[i].valor = aux
                                 counter += 1;
                             }
