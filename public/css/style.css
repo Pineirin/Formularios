@@ -34,3 +34,15 @@ footer {
 .dashboard:hover {
     border: 3px solid #3a7999;
 }
+
+#tabla {
+    background: white;
+}
+
+#pages > li > a {
+    color: black;
+}
+
+#tabla-section {
+    width: 100%;
+}
