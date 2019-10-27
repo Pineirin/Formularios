@@ -893,9 +893,9 @@ module.exports = {
                             .then((id) => {
                                 respuesta = "";
                                 if (id == null) {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no añadido"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no agregado"');
                                 } else {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito añadido"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito agregado"');
                                 }
                             });
 
