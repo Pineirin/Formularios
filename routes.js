@@ -191,12 +191,12 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
-                                pgUltima = listaFormularios.total / 6;
+                                pgUltimaDecimal = listaFormularios.total / 6;
+                                pgUltima = Math.trunc(pgUltimaDecimal);
 
                                 // La págian 2.5 no existe
                                 // Si excede sumar 1 y quitar los decimales
-                                if (pgUltima % 2 > 0) {
-                                    pgUltima = Math.trunc(pgUltima);
+                                if (pgUltimaDecimal > pgUltima) {
                                     pgUltima = pgUltima + 1;
                                 }
                             });
@@ -261,14 +261,13 @@ module.exports = {
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
                         .then((formularios, total) => {
-                            console.log(formularios.total);
                             listaFormularios = formularios;
-                            pgUltima = listaFormularios.total / 4;
+                            pgUltimaDecimal = listaFormularios.total / 4;
+                            pgUltima = Math.trunc(pgUltimaDecimal);
 
                             // La págian 2.5 no existe
                             // Si excede sumar 1 y quitar los decimales
-                            if (pgUltima % 2 > 0) {
-                                pgUltima = Math.trunc(pgUltima);
+                            if (pgUltimaDecimal > pgUltima) {
                                 pgUltima = pgUltima + 1;
                             }
 
