@@ -86,21 +86,32 @@ module.exports = {
                         password,
                     };
 
-                    if (email.isValid(req.payload.usuario)) {
-                        await repositorio.conexion()
-                            .then((db) => repositorio.insertarUsuario(db, usuario))
-                            .then((id) => {
-                                respuesta = "";
-                                if (id == null) {
-                                    respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
-                                } else {
-                                    respuesta = h.redirect('/login?mensaje="Usuario Creado"');
-                                }
-                            });
-                    } else {
-                        respuesta =  h.redirect('/registro?mensaje="Email invalido"');
-                    }
+                    var respuesta = "";
+                    console.log();
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerUsuarios(db, {usuario: req.payload.usuario}))
+                        .then((usuarios) => {
+                            if (usuarios != null && usuarios.length != 0) {
+                                respuesta = h.redirect('/registro?mensaje="Usuario ya existente"');
+                            }
+                        });
 
+                    if (respuesta === "") {
+                        if (email.isValid(req.payload.usuario)) {
+                            await repositorio.conexion()
+                                .then((db) => repositorio.insertarUsuario(db, usuario))
+                                .then((id) => {
+                                    respuesta = "";
+                                    if (id == null) {
+                                        respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
+                                    } else {
+                                        respuesta = h.redirect('/login?mensaje="Usuario Creado"');
+                                    }
+                                });
+                        } else {
+                            respuesta =  h.redirect('/registro?mensaje="Email invalido"');
+                        }
+                    }
 
                     return respuesta;
                 }
