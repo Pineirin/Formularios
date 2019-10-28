@@ -8,9 +8,15 @@ const routes = require("./routes.js");
 const repositorio = require("./repositorio.js");
 
 // Servidor
+/*
 const server = Hapi.server({
-    //port: 8080,
-    port: process.env.PORT || 3000
+    port: 8080,
+    //port: process.env.PORT || 3000
+});
+*/
+var port = process.env.PORT || 8080;
+const server = Hapi.server({
+    port: port,
 });
 
 // Declarar métodos comunes
