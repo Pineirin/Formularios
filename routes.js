@@ -259,78 +259,6 @@ module.exports = {
             {
                 method: 'GET',
                 path:
-                    '/formularios/publicos/{usuario}',
-                handler:
-                    async (req, h) => {
-
-                        var pg = parseInt(req.query.pg);
-                        if (req.query.pg == null) {
-                            pg = 1;
-                        }
-
-                        var criterio = {};
-                        var listaFormularios = [];
-
-                        criterio = {"public": true, "usuario": req.params.usuario};
-
-                        await repositorio.conexion()
-                            .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
-                            .then((formularios, total) => {
-                                listaFormularios = formularios;
-                                pgUltimaDecimal = listaFormularios.total / 3;
-                                pgUltima = Math.trunc(pgUltimaDecimal);
-
-                                // La págian 2.5 no existe
-                                // Si excede sumar 1 y quitar los decimales
-                                if (pgUltimaDecimal > pgUltima) {
-                                    pgUltima = pgUltima + 1;
-                                }
-                            });
-
-                        var paginas = [];
-                        for (i = 1; i <= pgUltima; i++) {
-                            if (i == pg) {
-                                paginas.push({valor: i, clase: "uk-active"});
-                            } else {
-                                paginas.push({valor: i});
-                            }
-                        }
-
-                        // Recorte
-                        listaFormularios.forEach((e) => {
-                            if (e.titulo.length > 40) {
-                                e.titulo =
-                                    e.titulo.substring(0, 40) + "...";
-                            }
-                            if (e.descripcion.length > 60) {
-                                e.descripcion =
-                                    e.descripcion.substring(0, 60) + "...";
-                            }
-                        });
-
-                        if (req.state["session-id"]) {
-                            return h.view('formularios/publicos',
-                                {
-                                    usuarioAutenticado: req.state["session-id"].usuario,
-                                    formularios: listaFormularios,
-                                    paginas: paginas,
-                                    usuario_busqueda: "/" + req.params.usuario,
-                                    titulo_busqueda: "",
-                                }, {layout: 'base'});
-                        } else {
-                            return h.view('formularios/publicos',
-                                {
-                                    formularios: listaFormularios,
-                                    paginas: paginas,
-                                    usuario_busqueda: "/" + req.params.usuario,
-                                    titulo_busqueda: "",
-                                }, {layout: 'base'});
-                        }
-                    }
-            },
-            {
-                method: 'GET',
-                path:
                     '/formularios/publicos/{usuario}/{titulo}',
                 handler:
                     async (req, h) => {
@@ -343,7 +271,15 @@ module.exports = {
                         var criterio = {};
                         var listaFormularios = [];
 
-                        criterio = {"public": true, "titulo": req.params.titulo, "usuario" : req.params.usuario};
+                        if (req.params.titulo == "undefinedTitulo"){
+                            criterio = {"public": true, "usuario" : new RegExp(".*" +  req.params.usuario + ".*")};
+                        } else if (req.params.usuario == "undefinedUsuario") {
+                            criterio = {"public": true, "titulo": new RegExp(".*" + req.params.titulo + ".*")};
+                        } else {
+                            criterio = {"public": true, "titulo": new RegExp(".*" + req.params.titulo + ".*"), "usuario" : new RegExp(".*" + req.params.usuario + ".*")};
+                        }
+
+
 
                         await repositorio.conexion()
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
@@ -407,11 +343,18 @@ module.exports = {
                     var titulo = req.payload.titulo;
                     var usuario = req.payload.usuario;
 
-                    if (titulo == undefined){
-                        return h.redirect('/formularios/publicos/' + usuario);
-                    } else {
-                        return h.redirect('/formularios/publicos/' + usuario + "/" + titulo);
+                    if (titulo == "" && usuario == ""){
+                        return h.redirect('/formularios/publicos');
                     }
+
+                    if (titulo == ""){
+                        titulo = "undefinedTitulo";
+                    }
+                    if (usuario == "") {
+                        usuario = "undefinedUsuario";
+                    }
+
+                    return h.redirect('/formularios/publicos/' + encodeURI(usuario) + "/" + encodeURI(titulo));
 
                 }
             },

@@ -46,3 +46,22 @@ footer {
 #tabla-section {
     width: 100%;
 }
+
+.grid-container {
+    position: relative;
+    display: grid;
+    grid-template-areas: "search-input-1 search-input-2"
+    "search-button-1 search-button-1"
+}
+
+.search-input-1{
+    grid-area: search-input-1;
+}
+
+.search-input-2{
+    grid-area: search-input-2;
+}
+
+.search-button-1{
+    grid-area: search-button-1;
+}
