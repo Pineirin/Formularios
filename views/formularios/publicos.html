@@ -55,4 +55,23 @@
         {{/each}}
     </ul>
 </section>
+<script>
+    var url = document.URL;
+    if (url.includes("pg=")){
+        var lis  = document.getElementById('pages');
+        var elements = lis.children;
+        for (let i=0; i<elements.length; i++){
+            var text = elements[i].children;
+            if (text[0].textContent == url.substr(url.length - 1)){
+                text[0].style.fontWeight = "bold"
+            }
+
+        }
+    } else {
+        var lis  = document.getElementById('pages');
+        var elements = lis.children;
+        var text = elements[0].children;
+        text[0].style.fontWeight = "bold"
+    }
+</script>
 <script src="/js/overCards.js"></script>

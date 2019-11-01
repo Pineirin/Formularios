@@ -486,6 +486,7 @@ module.exports = {
                         });
                     if (formulario) {
                         if (formulario.respuestas !== undefined) {
+
                             for (let i = 0; i < formulario.respuestas.length; i++) {
                                 if (!formulario.respuestas[i].usuario.localeCompare(formulario.usuario)) {
                                     repetido = true;
