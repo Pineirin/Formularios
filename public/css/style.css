@@ -20,15 +20,19 @@ header {
 }
 
 footer {
-    position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%;
     background-color: white;
     color: black;
     text-align: center;
     box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+#usuario-conectado {
+    text-align: center;
+    padding: 5px;
+    font-size: 16px;
 }
 
 .heart {
