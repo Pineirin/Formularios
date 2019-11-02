@@ -11,7 +11,7 @@
         <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
             {{#each formularios}}
             <div class="dashboard">
-                <form method="post" action="/formularios/{{ _id }}/favoritos"> <!-- acción borrar de favoritos -->
+                <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
                     <button type="submit" class="heart fav">
                     </button>
                 </form>
