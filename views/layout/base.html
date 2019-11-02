@@ -96,8 +96,7 @@
                         </span>Desconectarse
                     </a>
                 </div>
-                {{/if}}
-                {{^usuarioAutenticado}}
+                {{else}}
                 <div class="uk-navbar-item">
                     <a href="/login"
                        class="uk-button uk-button-default uk-visible@m">
@@ -106,7 +105,7 @@
                         </span>Acceder
                     </a>
                 </div>
-                {{/usuarioAutenticado}}
+                {{/if}}
 
                 <!-- Menú de movil lo oculta en pantallas mayores de m-->
                 <div class="uk-navbar-item uk-hidden@m">
