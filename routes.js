@@ -396,10 +396,10 @@ module.exports = {
                     var listaFormularios = [];
 
                     await repositorio.conexion()
-                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 4))
+                        .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 8))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
-                            pgUltimaDecimal = listaFormularios.total / 4;
+                            pgUltimaDecimal = listaFormularios.total / 8;
                             pgUltima = Math.trunc(pgUltimaDecimal);
 
                             // La págian 2.5 no existe
