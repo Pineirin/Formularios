@@ -2,19 +2,21 @@
     <div class="uk-container">
         <form id="buscador" method="post" action="/formularios/publicos">
             <fieldset class="uk-fieldset">
-                <div class = "grid-container">
-                    <div class = "search-input-1">
-                        <div class = "uk-width-5">
-                            <input class="uk-input" type="text" name="usuario" placeholder="Buscar formulario por nombre de creador">
+                <div class="grid-container">
+                    <div class="search-input-1">
+                        <div class="uk-width-5">
+                            <input class="uk-input" type="text" name="usuario"
+                                   placeholder="Buscar formulario por nombre de creador">
                         </div>
                     </div>
-                    <div class = "search-input-2">
-                        <div class = "uk-width-5">
-                            <input class="uk-input" type="text" name="titulo" placeholder="Buscar formulario por título">
+                    <div class="search-input-2">
+                        <div class="uk-width-5">
+                            <input class="uk-input" type="text" name="titulo"
+                                   placeholder="Buscar formulario por título">
                         </div>
                     </div>
-                    <div class = "search-button-1">
-                        <div class = "uk-width-1-1">
+                    <div class="search-button-1">
+                        <div class="uk-width-1-1">
                             <button class="uk-button uk-button-primary uk-width-1-1
                                 uk-margin-small-bottom"
                                     type="submit">
@@ -27,39 +29,40 @@
         </form>
         {{#if (empty formularios)}}
         <div class="uk-card uk-card-default uk-card-body uk-align-center">
-            <p class = "uk-text-lead uk-text-center" >No se ha encontrado resultados para su busqueda</p>
-            <img class = "uk-align-center" src="/images/lupa.png" alt="Lupa">
+            <p class="uk-text-lead uk-text-center">No se ha encontrado resultados para su busqueda</p>
+            <img class="uk-align-center" src="/images/lupa.png" alt="Lupa">
         </div>
         {{else}}
-        <div class="uk-align-center">
-            <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
+        <div class="uk-card uk-card-default uk-card-small uk-card-body uk-width-1-6">
+            <p class="uk-text-meta">{{resultados}} resultados</p>
+        </div>
+        <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
             {{#each formularios}}
-                    <div class="dashboard">
-                        {{#if ../usuarioAutenticado}}
-                            {{#if fav}}
-                            <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
-                                <button type="submit" class="heart fav">
-                                </button>
-                            </form>
-                            {{else}}
-                            <form method="post" action="/formularios/{{ _id }}/favoritos">
-                                <button type="submit" class="heart">
-                                </button>
-                            </form>
-                            {{/if}}
-                        {{/if}}
-                        <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
-                            <div>
-                                <h3>{{ titulo }}</h3>
-                                <hr>
-                                <div>
-                                    <p>{{ descripcion }}</p>
-                                </div>
-                            </div>
-                        </a>
+            <div class="dashboard">
+                {{#if ../usuarioAutenticado}}
+                {{#if fav}}
+                <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
+                    <button type="submit" class="heart fav">
+                    </button>
+                </form>
+                {{else}}
+                <form method="post" action="/formularios/{{ _id }}/favoritos">
+                    <button type="submit" class="heart">
+                    </button>
+                </form>
+                {{/if}}
+                {{/if}}
+                <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
+                    <div>
+                        <h3>{{ titulo }}</h3>
+                        <hr>
+                        <div>
+                            <p>{{ descripcion }}</p>
+                        </div>
                     </div>
-            {{/each}}
+                </a>
             </div>
+            {{/each}}
         </div>
         {{/if}}
     </div>
@@ -78,18 +81,18 @@
 <script src="/js/heart.js"></script>
 <script>
     var url = document.URL;
-    if (url.includes("pg=")){
-        var lis  = document.getElementById('pages');
+    if (url.includes("pg=")) {
+        var lis = document.getElementById('pages');
         var elements = lis.children;
-        for (let i=0; i<elements.length; i++){
+        for (let i = 0; i < elements.length; i++) {
             var text = elements[i].children;
-            if (text[0].textContent == url.substr(url.length - 1)){
+            if (text[0].textContent == url.substr(url.length - 1)) {
                 text[0].style.fontWeight = "bold"
             }
 
         }
     } else {
-        var lis  = document.getElementById('pages');
+        var lis = document.getElementById('pages');
         var elements = lis.children;
         var text = elements[0].children;
         text[0].style.fontWeight = "bold"
