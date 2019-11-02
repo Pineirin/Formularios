@@ -5,10 +5,36 @@ html {
 body {
     background: lightgrey;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
     background: white;
+}
+
+.site {
+    display: flex;
+    min-height: 90vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+    color: black;
+    padding: 20px 0px;
+    text-align: center;
+}
+
+.footer {
+    background: white;
+    text-align: center;
+    padding: 20px;
 }
 
 .btn-group {
@@ -17,16 +43,6 @@ header {
 
 .btn-group > button {
     width: 33%;
-}
-
-footer {
-    left: 0;
-    bottom: 0;
-    background-color: white;
-    color: black;
-    text-align: center;
-    box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 #usuario-conectado {
