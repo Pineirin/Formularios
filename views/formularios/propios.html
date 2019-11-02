@@ -2,8 +2,8 @@
     <div class="uk-container">
         {{#if (empty formularios)}}
         <div class="uk-card uk-card-default uk-card-body uk-align-center">
-            <p class = "uk-text-lead uk-text-center" >No se ha encontrado resultados para su busqueda</p>
-            <img class = "uk-align-center" src="/images/lupa.png" alt="Lupa">
+            <p class="uk-text-lead uk-text-center">No se ha encontrado resultados para su busqueda</p>
+            <img class="uk-align-center" src="/images/lupa.png" alt="Lupa">
         </div>
         {{else}}
         <div id="tabla" class="uk-overflow-auto">
@@ -16,25 +16,24 @@
                 </thead>
                 <tbody>
                 {{#each formularios}}
-                <a class="uk-link-toggle" href="/formularios/{{ _id }}/ver">
-                    <tr>
-                        <td >{{ titulo }}</td>
+                <tr onclick="/formularios/{{ _id }}/ver">
+                        <td>{{ titulo }}</td>
                         <td>
                             <a class="uk-link" href="/formularios/{{_id}}/respuestas">
-                                <span  uk-icon="list"></span>
+                                <span uk-icon="list"></span>
                                 Respuestas
                             </a> <br>
                             <a class="uk-link" href="/formularios/{{_id}}/modificar">
-                                <span  uk-icon="pencil"></span>
+                                <span uk-icon="pencil"></span>
                                 Modificar
                             </a> <br>
                             <a class="uk-link" href="/formularios/{{_id}}/eliminar">
-                                <span  uk-icon="trash"></span>
+                                <span uk-icon="trash"></span>
                                 Eliminar
                             </a>
                         </td>
-                    </tr>
-                </a>
+                </tr>
+
                 {{/each}}
                 </tbody>
             </table>
@@ -44,9 +43,9 @@
         <ul id="pages" class="uk-pagination uk-flex-center" uk-margin>
             {{#each paginas}}
 
-                <li class="{{ clase }}">
-                    <a href="/formularios/propios?pg={{valor}}">{{valor}}</a>
-                </li>
+            <li class="{{ clase }}">
+                <a href="/formularios/propios?pg={{valor}}">{{valor}}</a>
+            </li>
 
             {{/each}}
         </ul>
@@ -54,18 +53,18 @@
 </section>
 <script>
     var url = document.URL;
-    if (url.includes("pg=")){
-        var lis  = document.getElementById('pages');
+    if (url.includes("pg=")) {
+        var lis = document.getElementById('pages');
         var elements = lis.children;
-        for (let i=0; i<elements.length; i++){
+        for (let i = 0; i < elements.length; i++) {
             var text = elements[i].children;
-            if (text[0].textContent == url.substr(url.length - 1)){
+            if (text[0].textContent == url.substr(url.length - 1)) {
                 text[0].style.fontWeight = "bold"
             }
 
         }
     } else {
-        var lis  = document.getElementById('pages');
+        var lis = document.getElementById('pages');
         var elements = lis.children;
         var text = elements[0].children;
         text[0].style.fontWeight = "bold"
