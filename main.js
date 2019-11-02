@@ -71,11 +71,16 @@ const iniciar_server = async () => {
         });
 
         handlebars.registerHelper("equals", (a, b) => {
-                if(a == b) // Or === depending on your needs
-                    return true;
-                else
-                    return false;
+            if(a == b) // Or === depending on your needs
+                return true;
+            else
+                return false;
         });
+
+        handlebars.registerHelper("empty", (a) => {
+            return a.length == 0
+        });
+
 
         handlebars.registerHelper("showElement", (a) => {
             return function myFunction(a) {
