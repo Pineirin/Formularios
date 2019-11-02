@@ -87,7 +87,6 @@ module.exports = {
                     };
 
                     var respuesta = "";
-                    console.log();
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerUsuarios(db, {usuario: req.payload.usuario}))
                         .then((usuarios) => {
@@ -507,7 +506,7 @@ module.exports = {
                         if (formulario.respuestas !== undefined) {
 
                             for (let i = 0; i < formulario.respuestas.length; i++) {
-                                if (!formulario.respuestas[i].usuario.localeCompare(formulario.usuario)) {
+                                if (formulario.respuestas[i].usuario == req.state["session-id"].usuario) {
                                     repetido = true;
                                 }
                             }
@@ -714,6 +713,34 @@ module.exports = {
                         {
                             titulo: formulario.titulo,
                             preguntas: preguntas,
+                            usuarioAutenticado: req.state["session-id"].usuario,
+                        },
+                        {layout: 'base'});
+                }
+            },
+            {
+                method: 'GET',
+                path:
+                    '/formularios/{id}/ver',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
+                handler: async (req, h) => {
+
+
+                    var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
+                    var formulario;
+
+                    await repositorio.conexion()
+                        .then((db) => repositorio.obtenerFormularios(db, criterio))
+                        .then((formularios) => {
+                            formulario = formularios[0];
+                        });
+
+                    return h.view('formularios/respuestas',
+                        {
+                            formulario: formulario,
                             usuarioAutenticado: req.state["session-id"].usuario,
                         },
                         {layout: 'base'});

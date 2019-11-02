@@ -41,4 +41,24 @@
         {{/each}}
     </ul>
 </section>
+
+<script>
+    var url = document.URL;
+    if (url.includes("pg=")){
+        var lis  = document.getElementById('pages');
+        var elements = lis.children;
+        for (let i=0; i<elements.length; i++){
+            if (text[0].textContent == url.substr(url.length - 1)){
+            var text = elements[i].children;
+            }
+                text[0].style.fontWeight = "bold"
 <script src="/js/heart.js"></script>
+
+        }
+    } else {
+        var lis  = document.getElementById('pages');
+        var elements = lis.children;
+        var text = elements[0].children;
+        text[0].style.fontWeight = "bold"
+    }
+</script>
