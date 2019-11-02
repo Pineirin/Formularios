@@ -507,7 +507,10 @@ module.exports = {
                         if (formulario.respuestas !== undefined) {
 
                             for (let i = 0; i < formulario.respuestas.length; i++) {
-                                if (!formulario.respuestas[i].usuario.localeCompare(formulario.usuario)) {
+                                console.log(formulario.respuestas[i].usuario);
+                                console.log(req.state["session-id"].usuario);
+                                console.log(formulario.respuestas[i].usuario == req.state["session-id"].usuario);
+                                if (formulario.respuestas[i].usuario == req.state["session-id"].usuario) {
                                     repetido = true;
                                 }
                             }
