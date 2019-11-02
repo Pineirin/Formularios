@@ -125,6 +125,9 @@ h3, .uk-h3 {
     grid-area: search-button-1;
 }
 
+#buscador {
+    padding-right: 15px;
+}
 
 .switch {
     vertical-align: -20%;
