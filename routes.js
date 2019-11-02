@@ -188,6 +188,9 @@ module.exports = {
                 method: 'GET',
                 path:
                     '/formularios/publicos',
+                options: {
+                    auth: 'auth-registrado'
+                },
                 handler:
                     async (req, h) => {
 
@@ -227,16 +230,38 @@ module.exports = {
                         // Recorte
                         listaFormularios.forEach((e) => {
                             if (e.titulo.length > 40) {
-                                e.titulo =
-                                    e.titulo.substring(0, 40) + "...";
+                                e.titulo = e.titulo.substring(0, 40) + "...";
                             }
-                            if (e.descripcion.length > 60) {
-                                e.descripcion =
-                                    e.descripcion.substring(0, 60) + "...";
+                            if (e.descripcion.length > 80) {
+                                e.descripcion = e.descripcion.substring(0, 80) + "...";
                             }
                         });
 
                         if (req.state["session-id"]) {
+
+                            var criterio = {usuario : req.state["session-id"].usuario};
+                            var formulariosFavoritos = [];
+
+                            await repositorio.conexion()
+                                .then((db) => repositorio.obtenerUsuarios(db, criterio))
+                                .then((usuarios) => {
+                                    respuesta = "";
+                                    if (usuarios == null || usuarios.length == 0) {
+                                    } else {
+                                        if (usuarios[0].favoritos != undefined){
+                                            formulariosFavoritos = usuarios[0].favoritos;
+                                        }
+
+                                    }
+                                });
+                            await listaFormularios.forEach((elem) => {
+                                formulariosFavoritos.forEach((favElem) => {
+                                    if(elem._id.equals(favElem)){
+                                        elem.fav = true;
+                                    }
+                                })
+                            });
+
                             return h.view('formularios/publicos',
                                 {
                                     usuarioAutenticado: req.state["session-id"].usuario,
@@ -306,13 +331,11 @@ module.exports = {
 
                         // Recorte
                         listaFormularios.forEach((e) => {
-                            if (e.titulo.length > 40) {
-                                e.titulo =
-                                    e.titulo.substring(0, 40) + "...";
+                            if (e.titulo.length > 25) {
+                                e.titulo = e.titulo.substring(0, 25) + "...";
                             }
                             if (e.descripcion.length > 60) {
-                                e.descripcion =
-                                    e.descripcion.substring(0, 60) + "...";
+                                e.descripcion = e.descripcion.substring(0, 60) + "...";
                             }
                         });
 
@@ -768,13 +791,11 @@ module.exports = {
 
                         // Recorte
                         listaFormularios.forEach((e) => {
-                            if (e.titulo.length > 40) {
-                                e.titulo =
-                                    e.titulo.substring(0, 40) + "...";
+                            if (e.titulo.length > 25) {
+                                e.titulo = e.titulo.substring(0, 25) + "...";
                             }
                             if (e.descripcion.length > 60) {
-                                e.descripcion =
-                                    e.descripcion.substring(0, 60) + "...";
+                                e.descripcion = e.descripcion.substring(0, 60) + "...";
                             }
                         });
 

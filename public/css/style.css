@@ -31,8 +31,67 @@ footer {
     border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+.heart {
+    border: 0;
+    background-color: inherit;
+    cursor: pointer;
+    float: right;
+    height: 40px;
+    width: 80px;
+    background-image:url( 'https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png');
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size:2900%;
+}
+
+.fav {
+    background-position:right;
+}
+
+.heart:hover {
+    background-position:right;
+}
+
+.is_animating {
+    animation: heart-burst .8s steps(28) 1;
+}
+
+@keyframes heart-burst {
+    from {background-position:left;}
+    to { background-position:right;}
+}
+
+.dashboard {
+    background: white;
+    border: none;
+    padding: 1vw;
+    color: black;
+    text-align: left;
+    font-size: 16px;
+    margin: 1vw;
+    transition: 1.5s;
+    height: 200px;
+}
+
 .dashboard:hover {
-    border: 2px solid #3a7999;
+    background-color: black;
+    color: white;
+}
+
+h3, .uk-h3 {
+    height: 75px;
+}
+
+.dashboard:hover > a > div > h3{
+    color: white;
+}
+
+.dashboard > p {
+    text-align: center;
+}
+
+.dashboard:hover > p {
+    color: white;
 }
 
 #tabla {

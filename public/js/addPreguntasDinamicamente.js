@@ -9,13 +9,13 @@ function create() {
     contenedor.innerHTML =
         '<h3>Seleccione el tipo de pregunta:</h3>' +
         '<p class="uk-margin">' +
-        '<button class="uk-button uk-button-danger uk-width-1-3 uk-margin-small-bottom" onclick="textOption()">' +
+        '<button class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom" onclick="textOption()">' +
         'Texto' +
         '</button>' +
-        '<button class="uk-button uk-button-danger uk-width-1-3 uk-margin-small-bottom" onclick="choiceOption()">' +
+        '<button class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom" onclick="choiceOption()">' +
         'Opciones' +
         '</button>' +
-        '<button class="uk-button uk-button-danger uk-width-1-3 uk-margin-small-bottom" onclick="numberOption()">' +
+        '<button class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom" onclick="numberOption()">' +
         'Número' +
         '</button>' +
         '</p>';
