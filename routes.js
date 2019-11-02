@@ -781,24 +781,23 @@ module.exports = {
                             pg = 1;
                         }
 
+                        pgUltimaDecimal = 0
                         for (let i =0; i<formulariosFavoritos.length; i++){
                             criterio = {"_id": require("mongodb").ObjectID(formulariosFavoritos[i])};
                             await repositorio.conexion()
-                                .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 6))
+                                .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                                 .then((formularios, total) => {
+                                    pgUltimaDecimal += formularios.total;
                                     for (let j=0; j<formularios.length; j++){
                                         listaFormularios.push(formularios[j]);
                                     }
 
                                 });
-
                         }
 
-                        pgUltimaDecimal = listaFormularios.total / 6;
+                        pgUltimaDecimal = pgUltimaDecimal / 3;
                         pgUltima = Math.trunc(pgUltimaDecimal);
 
-                        // La págian 2.5 no existe
-                        // Si excede sumar 1 y quitar los decimales
                         if (pgUltimaDecimal > pgUltima) {
                             pgUltima = pgUltima + 1;
                         }
