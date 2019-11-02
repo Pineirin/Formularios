@@ -1,0 +1,18 @@
+<section class="uk-section" >
+    <div class="uk-container">
+        <div class="uk-card uk-card-default uk-card-body uk-align-center">
+            <div class="uk-overflow-auto">
+                <h1 class="uk-heading-divider">{{titulo}}</h1>
+                <ul class="uk-list uk-list-divider">
+                    {{#each preguntas}}
+                        <!--<li>{{valor}}: <button class="uk-button uk-button-default"  onclick="myFunction('{{valor}}')">Mostrar/Ocultar</button></li>-->
+                        <li>{{valor}}: <label class="switch">
+                            <input type="checkbox" onclick="myFunction('{{valor}}')" checked>
+                            <span class="slider round"></span>
+                        </label></li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
