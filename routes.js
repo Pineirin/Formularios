@@ -738,7 +738,7 @@ module.exports = {
                             formulario = formularios[0];
                         });
 
-                    return h.view('formularios/respuestas',
+                    return h.view('formularios/ver',
                         {
                             formulario: formulario,
                             usuarioAutenticado: req.state["session-id"].usuario,
