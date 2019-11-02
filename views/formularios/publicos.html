@@ -1,6 +1,6 @@
 <section class="uk-section">
     <div class="uk-container">
-        <form method="post" action="/formularios/publicos">
+        <form id="buscador" method="post" action="/formularios/publicos">
             <fieldset class="uk-fieldset">
                 <div class = "grid-container">
                     <div class = "search-input-1">
@@ -31,33 +31,35 @@
             <img class = "uk-align-center" src="/images/lupa.png" alt="Lupa">
         </div>
         {{else}}
-        <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
-        {{#each formularios}}
-                <div class="dashboard">
-                    {{#if ../usuarioAutenticado}}
-                        {{#if fav}}
-                        <form method="post" action="/formularios/{{ _id }}/favoritos">
-                            <button type="submit" class="heart fav">
-                            </button>
-                        </form>
-                        {{else}}
-                        <form method="post" action="/formularios/{{ _id }}/favoritos"> <!-- acción borrar de favoritos -->
-                            <button type="submit" class="heart">
-                            </button>
-                        </form>
+        <div class="uk-align-center">
+            <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
+            {{#each formularios}}
+                    <div class="dashboard">
+                        {{#if ../usuarioAutenticado}}
+                            {{#if fav}}
+                            <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
+                                <button type="submit" class="heart fav">
+                                </button>
+                            </form>
+                            {{else}}
+                            <form method="post" action="/formularios/{{ _id }}/favoritos">
+                                <button type="submit" class="heart">
+                                </button>
+                            </form>
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
-                    <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
-                        <div>
-                            <h3>{{ titulo }}</h3>
-                            <hr>
+                        <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
                             <div>
-                                <p>{{ descripcion }}</p>
+                                <h3>{{ titulo }}</h3>
+                                <hr>
+                                <div>
+                                    <p>{{ descripcion }}</p>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-        {{/each}}
+                        </a>
+                    </div>
+            {{/each}}
+            </div>
         </div>
         {{/if}}
     </div>

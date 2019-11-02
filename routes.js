@@ -893,6 +893,53 @@ module.exports = {
                     }
             },
             {
+                method: 'POST',
+                path: '/formularios/favoritos/delete/{id}',
+                options:
+                    {
+                        auth: 'auth-registrado'
+                    },
+                handler:
+                    async (req, h) => {
+
+                        var criterio = {usuario : req.state["session-id"].usuario};
+                        var usuario;
+
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.obtenerUsuarios(db, criterio))
+                            .then((usuarios) => {
+                                respuesta = "";
+                                if (usuarios == null || usuarios.length == 0) {
+                                } else {
+                                    usuario = usuarios[0];
+                                }
+                            });
+
+                        if (usuario.favoritos == undefined){
+                            return h.redirect('/formularios/favoritos?mensaje="No tienes favoritos"');
+                        } else {
+                            for (let i=0; i<usuario.favoritos.length; i++){
+                                if (usuario.favoritos[i] == req.params.id){
+                                    usuario.favoritos.splice(i, 1);
+                                }
+                            }
+                        }
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.modificarUsuario(db, criterio, usuario))
+                            .then((id) => {
+                                respuesta = "";
+                                if (id == null) {
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no eliminado"');
+                                } else {
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito eliminado"');
+                                }
+                            });
+                        return respuesta;
+                    }
+            },
+            {
                 method: 'GET',
                 path:
                     '/{param*}',
