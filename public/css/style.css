@@ -203,18 +203,18 @@ input:checked + .slider:before {
 }
 
 .own-row{
-    position: relative;
     display: grid;
     grid-template-areas: "own-row-show own-row-hide"
 }
 
 .own-row-show{
-    vertical-align: middle;
     grid-area: own-row-show;
+    margin: auto auto auto 0%;
 }
 
 .own-row-hide{
     grid-area: own-row-hide;
+    margin: auto 0% auto auto;
 }
 
 .own-row .own-row-hide{
@@ -224,6 +224,7 @@ input:checked + .slider:before {
 .own-row:hover .own-row-hide{
     display: block;
 }
+
 .own-row-hide:hover{
     display: block;
 }
