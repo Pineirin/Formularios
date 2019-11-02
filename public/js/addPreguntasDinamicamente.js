@@ -7,7 +7,7 @@ tempRespuestas = [];
 
 function create() {
     contenedor.innerHTML =
-        '<h3>Seleccione el tipo de pregunta:</h3>' +
+        '<h2>Seleccione el tipo de pregunta:</h2>' +
         '<p class="uk-margin">' +
         '<button class="uk-button uk-button-secondary uk-width-1-1 uk-margin-small-bottom" onclick="textOption()">' +
         'Texto' +
