@@ -204,7 +204,6 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
-                                console.log(formularios);
                                 pgUltimaDecimal = listaFormularios.total / 3;
                                 pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -739,7 +738,7 @@ module.exports = {
                             formulario = formularios[0];
                         });
 
-                    return h.view('formularios/respuestas',
+                    return h.view('formularios/ver',
                         {
                             formulario: formulario,
                             usuarioAutenticado: req.state["session-id"].usuario,

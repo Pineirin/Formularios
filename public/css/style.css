@@ -190,3 +190,19 @@ input:checked + .slider:before {
 #pages li a {
     font-size: 150%;
 }
+
+.link-block{
+    display: block;
+}
+
+
+.own-row .own-row-hide{
+    display: none;
+}
+
+.own-row:hover .own-row-hide{
+    display: block;
+}
+.own-row-hide:hover{
+    display: block;
+}

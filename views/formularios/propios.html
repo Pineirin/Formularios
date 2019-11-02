@@ -11,14 +11,17 @@
                 <thead>
                 <tr>
                     <th class="uk-table-expand">Titulo</th>
-                    <th class="uk-width-small">Opciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each formularios}}
-                <tr onclick="/formularios/ +'{{ _id }}' +/ver">
-                        <td>{{ titulo }}</td>
-                        <td>
+                <tr class="own-row">
+                    <td>{{ titulo }}
+                        <div class="own-row-hide">
+                            <a class="uk-link" href="/formularios/{{_id}}/ver">
+                                <span uk-icon="search"></span>
+                                Ver
+                            </a> <br>
                             <a class="uk-link" href="/formularios/{{_id}}/respuestas">
                                 <span uk-icon="list"></span>
                                 Respuestas
@@ -31,7 +34,9 @@
                                 <span uk-icon="trash"></span>
                                 Eliminar
                             </a>
-                        </td>
+                        </div>
+
+                    </td>
                 </tr>
 
                 {{/each}}
