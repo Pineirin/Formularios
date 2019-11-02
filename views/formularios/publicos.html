@@ -34,16 +34,20 @@
         <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
         {{#each formularios}}
                 <div class="dashboard">
-                    {{#if fav}}
-                    <form method="post" action="/formularios/{{ _id }}/favoritos">
-                        <button type="submit" class="heart fav">
-                        </button>
-                    </form>
+                    {{#if usuarioAutenticado}}
+                        {{#if fav}}
+                        <form method="post" action="/formularios/{{ _id }}/favoritos">
+                            <button type="submit" class="heart fav">
+                            </button>
+                        </form>
+                        {{else}}
+                        <form method="post" action="/formularios/{{ _id }}/favoritos"> <!-- acción borrar de favoritos -->
+                            <button type="submit" class="heart">
+                            </button>
+                        </form>
+                        {{/if}}
                     {{else}}
-                    <form method="post" action="/formularios/{{ _id }}/favoritos"> <!-- acción borrar de favoritos -->
-                        <button type="submit" class="heart">
-                        </button>
-                    </form>
+                    <div>Hola</div>
                     {{/if}}
                     <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
                         <div>

@@ -188,9 +188,6 @@ module.exports = {
                 method: 'GET',
                 path:
                     '/formularios/publicos',
-                options: {
-                    auth: 'auth-registrado'
-                },
                 handler:
                     async (req, h) => {
 
@@ -261,7 +258,6 @@ module.exports = {
                                     }
                                 })
                             });
-
                             return h.view('formularios/publicos',
                                 {
                                     usuarioAutenticado: req.state["session-id"].usuario,
