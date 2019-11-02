@@ -7,7 +7,11 @@
         </div>
         {{else}}
         <div class="uk-card uk-card-default uk-card-small uk-card-body uk-width-1-6">
-            <p class="uk-text-meta">{{resultados}} resultados</p>
+            {{#if (equals resultados "1")}}
+            <p class="uk-text-meta">{{resultados}} formulario propio</p>
+            {{else}}
+            <p class="uk-text-meta">{{resultados}} formularios propios</p>
+            {{/if}}
         </div>
         <br>
         <div id="tabla" class="uk-overflow-auto">
