@@ -204,6 +204,7 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
+                                console.log(formularios);
                                 pgUltimaDecimal = listaFormularios.total / 3;
                                 pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -785,9 +786,9 @@ module.exports = {
                         for (let i =0; i<formulariosFavoritos.length; i++){
                             criterio = {"_id": require("mongodb").ObjectID(formulariosFavoritos[i])};
                             await repositorio.conexion()
-                                .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
-                                .then((formularios, total) => {
-                                    pgUltimaDecimal += formularios.total;
+                                .then((db) => repositorio.obtenerFormularios(db, criterio))
+                                .then((formularios) => {
+                                    pgUltimaDecimal += 1;
                                     for (let j=0; j<formularios.length; j++){
                                         listaFormularios.push(formularios[j]);
                                     }
@@ -801,6 +802,8 @@ module.exports = {
                         if (pgUltimaDecimal > pgUltima) {
                             pgUltima = pgUltima + 1;
                         }
+
+                        listaFormularios = listaFormularios.slice((pg-1)*3, (pg)*3);
 
                         var paginas = [];
                         for (i = 1; i <= pgUltima; i++) {
