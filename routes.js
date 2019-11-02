@@ -61,7 +61,7 @@ module.exports = {
                         .then((usuarios) => {
                             respuesta = "";
                             if (usuarios == null || usuarios.length == 0) {
-                                respuesta = h.redirect('/login?mensaje="Usuario o password incorrecto"')
+                                respuesta = h.redirect('/login?mensaje="Usuario o password incorrecto"&tipoMensaje=danger')
                             } else {
                                 req.cookieAuth.set({
                                     usuario: usuarios[0].usuario,
@@ -91,7 +91,7 @@ module.exports = {
                         .then((db) => repositorio.obtenerUsuarios(db, {usuario: req.payload.usuario}))
                         .then((usuarios) => {
                             if (usuarios != null && usuarios.length != 0) {
-                                respuesta = h.redirect('/registro?mensaje="Usuario ya existente"');
+                                respuesta = h.redirect('/registro?mensaje="Usuario ya existente"&tipoMensaje=danger');
                             }
                         });
 
@@ -102,13 +102,13 @@ module.exports = {
                                 .then((id) => {
                                     respuesta = "";
                                     if (id == null) {
-                                        respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"')
+                                        respuesta = h.redirect('/registro?mensaje="Error al crear cuenta"&tipoMensaje=danger')
                                     } else {
-                                        respuesta = h.redirect('/login?mensaje="Usuario Creado"');
+                                        respuesta = h.redirect('/login?mensaje="Usuario Creado"&tipoMensaje=success');
                                     }
                                 });
                         } else {
-                            respuesta =  h.redirect('/registro?mensaje="Email invalido"');
+                            respuesta =  h.redirect('/registro?mensaje="Email invalido"&tipoMensaje=danger');
                         }
                     }
 
@@ -174,9 +174,9 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta = h.redirect('/formularios/propios?mensaje="Error al crear el formulario"')
+                                respuesta = h.redirect('/formularios/propios?mensaje="Error al crear el formulario"&tipoMensaje=danger')
                             } else {
-                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario creado"');
+                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario creado"&tipoMensaje=success');
                             }
                         });
 
@@ -448,7 +448,7 @@ module.exports = {
                             .then((resultado) => {
                             });
 
-                        return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"')
+                        return h.redirect('/formularios/propios?mensaje="Fomulario Eliminado"&tipoMensaje=success')
                     }
             }
             ,
@@ -511,7 +511,7 @@ module.exports = {
                                 }
                             }
                             if (repetido) {
-                                return h.redirect('/formularios/publicos?mensaje="Respondido previamente"');
+                                return h.redirect('/formularios/publicos?mensaje="Respondido previamente"&tipoMensaje=danger');
                             }
                         } else {
                             formulario.respuestas = [];
@@ -538,15 +538,15 @@ module.exports = {
                                 respuesta = "";
                                 if (id == null) {
                                     respuesta = h.redirect('/formularios/' + req.params.id
-                                        + '/responder?mensaje="Error al responder el formulario"');
+                                        + '/responder?mensaje="Error al responder el formulario"&tipoMensaje=danger');
                                 } else {
-                                    respuesta = h.redirect('/formularios/publicos?mensaje="Formulario respondido"');
+                                    respuesta = h.redirect('/formularios/publicos?mensaje="Formulario respondido"&tipoMensaje=success');
                                 }
                             });
 
                         return respuesta;
                     } else {
-                        return h.redirect('/formularios/publicos?mensaje="Formulario no existe"');
+                        return h.redirect('/formularios/publicos?mensaje="Formulario no existe"&tipoMensaje=danger');
                     }
                 }
             },
@@ -659,9 +659,9 @@ module.exports = {
                         .then((id) => {
                             respuesta = "";
                             if (id == null) {
-                                respuesta = h.redirect('/formularios/propios?mensaje="Error al modificar"')
+                                respuesta = h.redirect('/formularios/propios?mensaje="Error al modificar"&tipoMensaje=danger')
                             } else {
-                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario modificar"');
+                                respuesta = h.redirect('/formularios/propios?mensaje="Formulario modificado"&tipoMensaje=success');
                             }
                         });
 
@@ -691,7 +691,7 @@ module.exports = {
                     preguntas = [];
 
                     if(formulario.respuestas == undefined) {
-                        return h.redirect('/formularios/propios?mensaje="No tiene respuestas"');
+                        return h.redirect('/formularios/propios?mensaje="No tiene respuestas"&tipoMensaje=primary');
                     }
 
                     for (let i = 0; i < formulario.preguntas.length; i++) {
@@ -870,7 +870,7 @@ module.exports = {
                         } else {
                             for (let i=0; i<usuario.favoritos.length; i++){
                                 if (usuario.favoritos[i] == req.params.id){
-                                    return h.redirect('/formularios/favoritos?mensaje="Favorito ya estaba elegido"');
+                                    return h.redirect('/formularios/favoritos?mensaje="Favorito ya estaba elegido"&tipoMensaje=danger');
                                 }
                             }
                             usuario.favoritos.push(require("mongodb").ObjectID(req.params.id))
@@ -881,9 +881,9 @@ module.exports = {
                             .then((id) => {
                                 respuesta = "";
                                 if (id == null) {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no agregado"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no agregado"&tipoMensaje=danger');
                                 } else {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito agregado"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito agregado"&tipoMensaje=success');
                                 }
                             });
 
@@ -917,7 +917,7 @@ module.exports = {
                             });
 
                         if (usuario.favoritos == undefined){
-                            return h.redirect('/formularios/favoritos?mensaje="No tienes favoritos"');
+                            return h.redirect('/formularios/favoritos?mensaje="No tienes favoritos"&tipoMensaje=primary');
                         } else {
                             for (let i=0; i<usuario.favoritos.length; i++){
                                 if (usuario.favoritos[i] == req.params.id){
@@ -931,9 +931,9 @@ module.exports = {
                             .then((id) => {
                                 respuesta = "";
                                 if (id == null) {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no eliminado"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito no eliminado"&tipoMensaje=danger');
                                 } else {
-                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito eliminado"');
+                                    respuesta = h.redirect('/formularios/favoritos?mensaje="Favorito eliminado"&tipoMensaje=success');
                                 }
                             });
                         return respuesta;
