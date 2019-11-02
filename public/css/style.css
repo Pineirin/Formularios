@@ -198,6 +198,20 @@ input:checked + .slider:before {
     display: block;
 }
 
+.own-row{
+    position: relative;
+    display: grid;
+    grid-template-areas: "own-row-show own-row-hide"
+}
+
+.own-row-show{
+    vertical-align: middle;
+    grid-area: own-row-show;
+}
+
+.own-row-hide{
+    grid-area: own-row-hide;
+}
 
 .own-row .own-row-hide{
     display: none;
