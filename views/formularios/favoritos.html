@@ -6,8 +6,14 @@
             <p class = "uk-text-lead uk-text-center" >No se ha encontrado resultados para su busqueda</p>
             <img class = "uk-align-center" src="/images/lupa.png" alt="Lupa">
         </div>
-
         {{else}}
+        <div class="uk-card uk-card-default uk-card-small uk-card-body uk-width-1-6">
+            {{#if (equals resultados "1")}}
+            <p class="uk-text-meta">{{resultados}} formulario favorito</p>
+            {{else}}
+            <p class="uk-text-meta">{{resultados}} formularios favoritos</p>
+            {{/if}}
+        </div>
         <div class="uk-grid-small uk-child-width-expand@m uk-grid-small" uk-grid>
             {{#each formularios}}
             <div class="dashboard">

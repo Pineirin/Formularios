@@ -197,6 +197,7 @@ module.exports = {
 
                         var criterio = {};
                         var listaFormularios = [];
+                        var resultados;
 
                         criterio = {"public": true};
 
@@ -204,6 +205,7 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
+                                resultados = listaFormularios.total
                                 pgUltimaDecimal = listaFormularios.total / 3;
                                 pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -259,6 +261,7 @@ module.exports = {
                             });
                             return h.view('formularios/publicos',
                                 {
+                                    resultados: resultados,
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
                                     paginas: paginas,
@@ -268,6 +271,7 @@ module.exports = {
                         } else {
                             return h.view('formularios/publicos',
                                 {
+                                    resultados: resultados,
                                     formularios: listaFormularios,
                                     paginas: paginas,
                                     usuario_busqueda: "",
@@ -290,6 +294,7 @@ module.exports = {
 
                         var criterio = {};
                         var listaFormularios = [];
+                        var resultados;
 
                         if (req.params.titulo == "undefinedTitulo"){
                             criterio = {"public": true, "usuario" : new RegExp(".*" +  req.params.usuario + ".*")};
@@ -305,6 +310,7 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
+                                resultados = listaFormularios.total;
                                 pgUltimaDecimal = listaFormularios.total / 3;
                                 pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -337,6 +343,7 @@ module.exports = {
                         if (req.state["session-id"]) {
                             return h.view('formularios/publicos',
                                 {
+                                    resultados: resultados,
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
                                     paginas: paginas,
@@ -346,6 +353,7 @@ module.exports = {
                         } else {
                             return h.view('formularios/publicos',
                                 {
+                                    resultados: resultados,
                                     formularios: listaFormularios,
                                     paginas: paginas,
                                     usuario_busqueda: "/" + req.params.usuario,
@@ -394,11 +402,13 @@ module.exports = {
 
                     var criterio = {"usuario": req.auth.credentials};
                     var listaFormularios = [];
+                    var resultados;
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 8))
                         .then((formularios, total) => {
                             listaFormularios = formularios;
+                            resultados = listaFormularios.total;
                             pgUltimaDecimal = listaFormularios.total / 8;
                             pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -420,6 +430,7 @@ module.exports = {
                     }
                     return h.view('formularios/propios',
                         {
+                            resultados: resultados,
                             formularios: listaFormularios,
                             usuarioAutenticado: req.state["session-id"].usuario,
                             paginas: paginas
@@ -760,6 +771,7 @@ module.exports = {
 
                         var criterio = {usuario : req.state["session-id"].usuario};
                         var formulariosFavoritos = [];
+                        var resultados;
 
 
                         await repositorio.conexion()
@@ -781,7 +793,7 @@ module.exports = {
                             pg = 1;
                         }
 
-                        pgUltimaDecimal = 0
+                        pgUltimaDecimal = 0;
                         for (let i =0; i<formulariosFavoritos.length; i++){
                             criterio = {"_id": require("mongodb").ObjectID(formulariosFavoritos[i])};
                             await repositorio.conexion()
@@ -795,6 +807,7 @@ module.exports = {
                                 });
                         }
 
+                        resultados = pgUltimaDecimal;
                         pgUltimaDecimal = pgUltimaDecimal / 3;
                         pgUltima = Math.trunc(pgUltimaDecimal);
 
@@ -826,6 +839,7 @@ module.exports = {
                         if (req.state["session-id"]) {
                             return h.view('formularios/favoritos',
                                 {
+                                    resultados: resultados,
                                     usuarioAutenticado: req.state["session-id"].usuario,
                                     formularios: listaFormularios,
                                     paginas: paginas,
