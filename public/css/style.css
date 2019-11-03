@@ -238,7 +238,11 @@ input:checked + .slider:before {
 }
 
 .own-row:hover .own-row-hide{
-    display: block;
+    display: inline-flex;
+}
+
+.own-row-hide > a {
+    padding-right: 25px;
 }
 
 .own-row-hide:hover{
