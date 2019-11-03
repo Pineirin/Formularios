@@ -26,10 +26,6 @@
                 <tr>
                     <td class="own-row"><div class="own-row-show">{{ titulo }}</div>
                         <div class="own-row-hide">
-                            <a class="uk-link" href="/formularios/{{_id}}/ver">
-                                <span uk-icon="search"></span>
-                                Ver
-                            </a> <br>
                             <a class="uk-link" href="/formularios/{{_id}}/respuestas">
                                 <span uk-icon="list"></span>
                                 Respuestas
@@ -42,6 +38,32 @@
                                 <span uk-icon="trash"></span>
                                 Eliminar
                             </a>
+                            <a class="uk-link" href="#" onclick="toggle_visibility('{{_id}}');">
+                                <span uk-icon="more"></span>
+                            </a>
+
+                            <div id = "{{_id}}" class="own-more-hide">
+                                <a class="uk-link" href="/formularios/{{_id}}/ver">
+                                    <span uk-icon="search"></span>
+                                    Ver
+                                </a>
+                                <a class="uk-link" uk-toggle="target: #my_id_{{_id}}"><span uk-icon="social"></span>Compartir</a>
+
+                                <div class="uk-modal" id="my_id_{{_id}}" uk-modal>
+                                    <div class="uk-modal-dialog">
+                                        <div class="uk-modal-header">Compartir formulario</div>
+                                        <div class = "modal-grid-container">
+                                            <div class = "modal-grid-element-1">
+                                                <p>/formularios/{{_id}}/responder</p>
+                                            </div>
+                                            <div class = "modal-grid-element-2">
+                                                <button onclick="toClipboard()">
+                                                    <span data-uk-icon="copy"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </td>
@@ -64,6 +86,7 @@
         </ul>
     </div>
 </section>
+
 <script>
     var url = document.URL;
     if (url.includes("pg=")) {
@@ -82,4 +105,25 @@
         var text = elements[0].children;
         text[0].style.fontWeight = "bold"
     }
+</script>
+
+<script>
+    function toClipboard() {
+        var copyText = document.getElementById("myInput");
+        copyText.select();
+        document.execCommand("Copy");
+        alert("Copied the text: " + copyText.value);
+    }
+</script>
+
+<script>
+    <!--
+    function toggle_visibility(id) {
+        var e = document.getElementById(id);
+        if(e.style.display == 'block')
+            e.style.display = 'none';
+        else
+            e.style.display = 'block';
+    }
+    //-->
 </script>

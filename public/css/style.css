@@ -248,3 +248,24 @@ input:checked + .slider:before {
 .own-row-hide:hover{
     display: block;
 }
+
+.own-more-hide{
+    display: none;
+}
+
+.modal-grid-container{
+    position: relative;
+    display: grid;
+    grid-template-areas: "modal-grid-element-1 modal-grid-element-2"
+}
+
+.modal-grid-element-1{
+    grid-area: modal-grid-element-1;
+    width: 140%;
+}
+
+.modal-grid-element-2{
+    grid-area: modal-grid-element-2;
+    text-align: center;
+    margin: auto
+}
