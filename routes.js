@@ -820,8 +820,8 @@ module.exports = {
                             await repositorio.conexion()
                                 .then((db) => repositorio.obtenerFormularios(db, criterio))
                                 .then((formularios) => {
-                                    pgUltimaDecimal += 1;
                                     for (let j=0; j<formularios.length; j++){
+                                        pgUltimaDecimal += 1;
                                         listaFormularios.push(formularios[j]);
                                     }
 
@@ -868,6 +868,7 @@ module.exports = {
                         } else {
                             return h.view('formularios/favoritos',
                                 {
+                                    resultados: resultados,
                                     formularios: listaFormularios,
                                     paginas: paginas,
                                 }, {layout: 'base'});
