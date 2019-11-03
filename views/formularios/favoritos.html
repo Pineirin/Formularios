@@ -18,8 +18,7 @@
             {{#each formularios}}
             <div class="dashboard">
                 <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
-                    <button type="submit" class="heart fav">
-                    </button>
+                    <button type="submit" class="heart fav" uk-tooltip="Eliminar de favoritos"></button>
                 </form>
                 <a class="uk-link-toggle" href="/formularios/{{ _id }}/responder">
                     <div>

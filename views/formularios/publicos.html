@@ -46,13 +46,11 @@
                 {{#if ../usuarioAutenticado}}
                 {{#if fav}}
                 <form method="post" action="/formularios/favoritos/delete/{{ _id }}">
-                    <button type="submit" class="heart fav">
-                    </button>
+                    <button type="submit" class="heart fav" uk-tooltip="Eliminar de favoritos"></button>
                 </form>
                 {{else}}
                 <form method="post" action="/formularios/{{ _id }}/favoritos">
-                    <button type="submit" class="heart">
-                    </button>
+                    <button type="submit" class="heart" uk-tooltip="Añadir a favoritos"></button>
                 </form>
                 {{/if}}
                 {{/if}}

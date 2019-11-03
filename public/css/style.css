@@ -248,3 +248,10 @@ input:checked + .slider:before {
 .own-row-hide:hover{
     display: block;
 }
+
+.ajuste > button,
+.ajuste > button:hover,
+.ajuste > button:active {
+    background-color: white;
+    color: black;
+}
