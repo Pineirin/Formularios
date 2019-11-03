@@ -52,7 +52,7 @@
                                             <div class="uk-modal-header">Compartir formulario</div>
                                             <div class = "modal-grid-container">
                                                 <div class = "modal-grid-element-1">
-                                                    <p>/formularios/{{_id}}/responder</p>
+                                                    <input class="uk-input" type="text" value="/formularios/{{_id}}/responder" id="myInput">
                                                 </div>
                                                 <div class = "modal-grid-element-2">
                                                     <button onclick="toClipboard()">
@@ -87,6 +87,14 @@
         </ul>
     </div>
 </section>
+
+<script type="text/javascript">
+    window.onload = function(){
+        var url = window.location.toString();
+        console.log(url.split("/formularios")[0]);
+        document.getElementById("myInput").value = url.split("/formularios")[0] + document.getElementById("myInput").value
+    }
+</script>
 
 <script>
     var url = document.URL;
