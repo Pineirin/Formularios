@@ -304,8 +304,6 @@ module.exports = {
                             criterio = {"public": true, "titulo": new RegExp(".*" + req.params.titulo + ".*"), "usuario" : new RegExp(".*" + req.params.usuario + ".*")};
                         }
 
-
-
                         await repositorio.conexion()
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
@@ -473,9 +471,9 @@ module.exports = {
                     },
                 handler: async (req, h) => {
 
-
                     var criterio = {"_id": require("mongodb").ObjectID(req.params.id)};
                     var formulario;
+                    var formulariosFavoritos = [];
 
                     await repositorio.conexion()
                         .then((db) => repositorio.obtenerFormularios(db, criterio))
@@ -483,6 +481,29 @@ module.exports = {
                             formulario = formularios[0];
                         });
 
+                    if (req.state["session-id"]) {
+
+                        criterio = {usuario : req.state["session-id"].usuario};
+
+                        await repositorio.conexion()
+                            .then((db) => repositorio.obtenerUsuarios(db, criterio))
+                            .then((usuarios) => {
+                                respuesta = "";
+                                if (usuarios == null || usuarios.length == 0) {
+                                } else {
+                                    if (usuarios[0].favoritos != undefined){
+                                        formulariosFavoritos = usuarios[0].favoritos;
+                                    }
+
+                                }
+                            });
+
+                        await formulariosFavoritos.forEach((elem) => {
+                            if(elem.equals(formulario._id)) {
+                                formulario.fav = true;
+                            }
+                        });
+                    }
                     return h.view('formularios/formulario',
                         {
                             id: require("mongodb").ObjectID(req.params.id),
