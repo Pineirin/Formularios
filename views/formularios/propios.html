@@ -38,32 +38,33 @@
                                 <span uk-icon="trash"></span>
                                 Eliminar
                             </a>
-                            <a class="uk-link" href="#" onclick="toggle_visibility('{{_id}}');">
-                                <span uk-icon="more"></span>
-                            </a>
+                            <div class="uk-link dropdown-more">
+                                <span class="dropbtn-more" uk-icon="more"></span>
+                                <div class="dropdown-content-more">
+                                    <a class="uk-link" href="/formularios/{{_id}}/ver">
+                                        <span uk-icon="search"></span>
+                                        Ver
+                                    </a>
+                                    <a class="uk-link" uk-toggle="target: #my_id_{{_id}}"><span uk-icon="social"></span>Compartir</a>
 
-                            <div id = "{{_id}}" class="own-more-hide">
-                                <a class="uk-link" href="/formularios/{{_id}}/ver">
-                                    <span uk-icon="search"></span>
-                                    Ver
-                                </a>
-                                <a class="uk-link" uk-toggle="target: #my_id_{{_id}}"><span uk-icon="social"></span>Compartir</a>
-
-                                <div class="uk-modal" id="my_id_{{_id}}" uk-modal>
-                                    <div class="uk-modal-dialog">
-                                        <div class="uk-modal-header">Compartir formulario</div>
-                                        <div class = "modal-grid-container">
-                                            <div class = "modal-grid-element-1">
-                                                <p>/formularios/{{_id}}/responder</p>
-                                            </div>
-                                            <div class = "modal-grid-element-2">
-                                                <button onclick="toClipboard()">
-                                                    <span data-uk-icon="copy"></span></button>
+                                    <div class="uk-modal" id="my_id_{{_id}}" uk-modal>
+                                        <div class="uk-modal-dialog">
+                                            <div class="uk-modal-header">Compartir formulario</div>
+                                            <div class = "modal-grid-container">
+                                                <div class = "modal-grid-element-1">
+                                                    <p>/formularios/{{_id}}/responder</p>
+                                                </div>
+                                                <div class = "modal-grid-element-2">
+                                                    <button onclick="toClipboard()">
+                                                        <span data-uk-icon="copy"></span></button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
 
                     </td>

@@ -249,9 +249,6 @@ input:checked + .slider:before {
     display: block;
 }
 
-.own-more-hide{
-    display: none;
-}
 
 .modal-grid-container{
     position: relative;
@@ -285,3 +282,22 @@ input:checked + .slider:before {
     height: 40px;
     width: 80px;
 }
+
+
+.dropdown-more {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content-more {
+    display: none;
+    position: absolute;
+}
+
+.dropdown-content-more a {
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-more:hover .dropdown-content-more {display: block;}
+
