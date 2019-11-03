@@ -255,3 +255,12 @@ input:checked + .slider:before {
     background-color: white;
     color: black;
 }
+
+.trash {
+    border: 0;
+    background-color: inherit;
+    cursor: pointer;
+    float: right;
+    height: 40px;
+    width: 80px;
+}
