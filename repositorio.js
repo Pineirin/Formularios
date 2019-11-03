@@ -120,7 +120,7 @@ module.exports = {
 
         promise = new Promise((resolve, reject) => {
             var collection = db.collection('formularios');
-            collection.update(criterio, {$set: formulario}, (err, result) => {
+            collection.updateOne(criterio, {$set: formulario}, (err, result) => {
                 if (err) {
                     resolve(null);
                 } else {
