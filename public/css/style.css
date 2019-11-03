@@ -282,21 +282,7 @@ input:checked + .slider:before {
     width: 80px;
 }
 
-
-.dropdown-more {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content-more {
+.own-more-hide{
     display: none;
-    position: absolute;
 }
-
-.dropdown-content-more a {
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-more:hover .dropdown-content-more {display: block;}
 

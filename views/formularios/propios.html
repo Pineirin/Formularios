@@ -25,7 +25,7 @@
                 {{#each formularios}}
                 <tr>
                     <td class="own-row"><div class="own-row-show">{{ titulo }}</div>
-                        <div class="own-row-hide">
+                        <div class="own-row-hide" onmouseleave="toggle_visibility_down('{{_id}}_1', '{{_id}}_2', '{{_id}}_3');">
                             <a class="uk-link" href="/formularios/{{_id}}/respuestas">
                                 <span uk-icon="list"></span>
                                 Respuestas
@@ -38,33 +38,33 @@
                                 <span uk-icon="trash"></span>
                                 Eliminar
                             </a>
-                            <div class="uk-link dropdown-more">
-                                <span class="dropbtn-more" uk-icon="more"></span>
-                                <div class="dropdown-content-more">
-                                    <a class="uk-link" href="/formularios/{{_id}}/ver">
-                                        <span uk-icon="search"></span>
-                                        Ver
-                                    </a>
-                                    <a class="uk-link" uk-toggle="target: #my_id_{{_id}}"><span uk-icon="social"></span>Compartir</a>
+                            <a id = "{{_id}}_1" class="uk-link" href="#" onmouseenter="toggle_visibility_up('{{_id}}_1', '{{_id}}_2', '{{_id}}_3');">
+                                <span uk-icon="more"></span>
+                            </a>
 
-                                    <div class="uk-modal" id="my_id_{{_id}}" uk-modal>
-                                        <div class="uk-modal-dialog">
-                                            <div class="uk-modal-header">Compartir formulario</div>
-                                            <div class = "modal-grid-container">
-                                                <div class = "modal-grid-element-1">
-                                                    <input class="uk-input" type="text" value="/formularios/{{_id}}/responder" id="myInput">
-                                                </div>
-                                                <div class = "modal-grid-element-2">
-                                                    <button onclick="toClipboard()">
-                                                        <span data-uk-icon="copy"></span></button>
-                                                </div>
-                                            </div>
+                            <a class="uk-link own-more-hide" id = "{{_id}}_2" href="/formularios/{{_id}}/ver">
+                                <span uk-icon="search"></span>
+                                Ver
+                            </a>
+                            <a class="uk-link own-more-hide" id = "{{_id}}_3" uk-toggle="target: #my_id_{{_id}}">
+                                <span uk-icon="social"></span>
+                                Compartir
+                            </a>
+
+                            <div class="uk-modal" id="my_id_{{_id}}" uk-modal>
+                                <div class="uk-modal-dialog">
+                                    <div class="uk-modal-header">Compartir formulario</div>
+                                    <div class = "modal-grid-container">
+                                        <div class = "modal-grid-element-1">
+                                            <input class="uk-input" type="text" value="/formularios/{{_id}}/responder" id="myInput">
+                                        </div>
+                                        <div class = "modal-grid-element-2">
+                                            <button onclick="toClipboard()">
+                                                <span data-uk-icon="copy"></span></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                     </td>
@@ -88,7 +88,7 @@
     </div>
 </section>
 
-<script type="text/javascript">
+<script>
     window.onload = function(){
         var url = window.location.toString();
         console.log(url.split("/formularios")[0]);
@@ -127,12 +127,25 @@
 
 <script>
     <!--
-    function toggle_visibility(id) {
-        var e = document.getElementById(id);
-        if(e.style.display == 'block')
-            e.style.display = 'none';
-        else
-            e.style.display = 'block';
+    function toggle_visibility_up(id1, id2, id3) {
+        var id1 = document.getElementById(id1);
+        id1.style.display = 'none';
+
+        var id2 = document.getElementById(id2);
+        id2.style.display = 'block';
+
+        var id3 = document.getElementById(id3);
+        id3.style.display = 'block';
+    }
+    function toggle_visibility_down(id1, id2, id3) {
+        var id1 = document.getElementById(id1);
+        id1.style.display = 'block';
+
+        var id2 = document.getElementById(id2);
+        id2.style.display = 'none';
+
+        var id3 = document.getElementById(id3);
+        id3.style.display = 'none';
     }
     //-->
 </script>
