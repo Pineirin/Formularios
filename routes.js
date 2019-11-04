@@ -205,7 +205,7 @@ module.exports = {
                             .then((db) => repositorio.obtenerFormulariosPg(db, pg, criterio, 3))
                             .then((formularios, total) => {
                                 listaFormularios = formularios;
-                                resultados = listaFormularios.total
+                                resultados = listaFormularios.total;
                                 pgUltimaDecimal = listaFormularios.total / 3;
                                 pgUltima = Math.trunc(pgUltimaDecimal);
 
